@@ -2,9 +2,12 @@
   "name": "regaster-vistors",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "vistor-backend/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node vistor-backend/server.js",
+    "server": "nodemon vistor-backend/server.js",
+    "client": "npm start --prefix vistor-frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "",
