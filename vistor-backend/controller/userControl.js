@@ -127,6 +127,56 @@ const updatUser = asyncHnadler(async (req, res) => {
       }
       break;
 
+    case 'ADD-GROUP':
+      const user2 = await User.findById(_id);
+
+      if (user2) {
+        const updatedUser = await User.findByIdAndUpdate(
+          _id,
+          { $push: data },
+          {
+            new: true,
+          }
+        );
+
+        if (updatedUser) {
+          const allUsers = await User.find({});
+          res.status(200).json(allUsers);
+        } else {
+          res.status(400);
+          throw new Error('data you provied not correct try agin');
+        }
+      } else {
+        res.status(400);
+        throw new Error('_id not correct');
+      }
+      break;
+
+    case 'DELETE-GROUP':
+      const user3 = await User.findById(_id);
+
+      if (user3) {
+        const updatedUser = await User.findByIdAndUpdate(
+          _id,
+          { $pull: { group: { $in: data } } },
+          {
+            new: true,
+          }
+        );
+
+        if (updatedUser) {
+          const allUsers = await User.find({});
+          res.status(200).json(allUsers);
+        } else {
+          res.status(400);
+          throw new Error('data you provied not correct try agin');
+        }
+      } else {
+        res.status(400);
+        throw new Error('_id not correct');
+      }
+      break;
+
     case 'UPLOAD-IMAG':
       if (req.body.files === null) {
         res.status(400);

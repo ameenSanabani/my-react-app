@@ -23,7 +23,7 @@ const userSchema = mongoose.Schema(
       required: [true, 'provied admin status'],
     },
     group: {
-      type: Number,
+      type: Array,
       required: [true, 'provied user group'],
     },
   },
