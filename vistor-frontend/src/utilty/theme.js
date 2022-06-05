@@ -8,11 +8,13 @@ const theme = createTheme({
       main: '#333',
       dark: '#fff',
       light: '#1960a5',
+      error: 'red',
     },
     secondary: {
       main: '#fff',
       dark: '#030303',
       light: 'skyblue',
+      error: '#f06f6f',
     },
   },
 });

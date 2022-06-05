@@ -83,12 +83,11 @@ const login = asyncHnadler(async (req, res) => {
 
 const updatUser = asyncHnadler(async (req, res) => {
   const { updateType, _id, data } = req.body;
+  const user = await User.findById(_id);
 
   switch (updateType) {
     case 'CHANGE-Password':
       const { oldPassword, newPassword } = data;
-
-      const user = await User.findById(_id);
 
       if (user && (await bcrypt.compare(oldPassword, user.password))) {
         const salt = await bcrypt.genSalt(10);
@@ -107,9 +106,7 @@ const updatUser = asyncHnadler(async (req, res) => {
       break;
 
     case 'UPDATE-FILED':
-      const user1 = await User.findById(_id);
-
-      if (user1) {
+      if (user) {
         const updatedUser = await User.findByIdAndUpdate(_id, data, {
           new: true,
         });
@@ -128,9 +125,7 @@ const updatUser = asyncHnadler(async (req, res) => {
       break;
 
     case 'ADD-GROUP':
-      const user2 = await User.findById(_id);
-
-      if (user2) {
+      if (user) {
         const updatedUser = await User.findByIdAndUpdate(
           _id,
           { $push: data },
@@ -153,9 +148,7 @@ const updatUser = asyncHnadler(async (req, res) => {
       break;
 
     case 'DELETE-GROUP':
-      const user3 = await User.findById(_id);
-
-      if (user3) {
+      if (user) {
         const updatedUser = await User.findByIdAndUpdate(
           _id,
           { $pull: { group: { $in: data } } },
@@ -189,10 +182,8 @@ const updatUser = asyncHnadler(async (req, res) => {
         `/Users/sanabani/Desktop/regaster-vistors/vistor-frontend/public/imags/${file.name}`,
         (err) => {
           if (err) {
-            console.log(err);
             return res.status(500).json(err);
           }
-
           res
             .status(200)
             .json({ fileName: file.name, filePath: `/imags/${file.name}` });

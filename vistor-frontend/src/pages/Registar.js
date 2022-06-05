@@ -10,16 +10,23 @@ import {
   FormControl,
   Grid,
   Box,
+  styled,
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { Add, Visibility, VisibilityOff } from '@mui/icons-material';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { strengthColor, strengthIndicator } from '../utilty/password-streng';
+import { reset as resetUser, registerUser } from '../features/auth/authSlice';
+
+const PragrafErr = styled(Typography)(({ theme }) => ({
+  color: theme.palette.primary.error,
+}));
 
 const Registar = () => {
-  const [password, setPassword] = useState('');
+  // eslint-disable-next-line
   const [showPassword, setshowPassword] = useState(false);
   const [showPassword1, setshowPassword1] = useState(false);
   const [strength, setStrength] = useState(0);
@@ -30,7 +37,32 @@ const Registar = () => {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
+    reset,
+    getValues,
   } = useForm();
+  const dispatch = useDispatch();
+
+  const { user, loading, seccess, isError, message } = useSelector(
+    (state) => state.auth
+  );
+
+  React.useEffect(() => {
+    if (isError) {
+      console.log(message);
+    }
+
+    if (seccess) {
+      dispatch(resetUser());
+    }
+  }, [user, loading, seccess, isError, message, dispatch]);
+
+  const valuePassword = watch('password');
+
+  React.useEffect(() => {
+    changePassword();
+    // eslint-disable-next-line
+  }, [valuePassword]);
 
   const handleClickShowPassword = () => {
     setshowPassword(!showPassword);
@@ -44,10 +76,31 @@ const Registar = () => {
     event.preventDefault();
   };
 
-  const changePassword = (value) => {
-    const temp = strengthIndicator(value);
+  const changePassword = () => {
+    const temp = strengthIndicator(watch('password'));
     setStrength(temp);
     setLevel(strengthColor(temp));
+  };
+
+  const onSubmit = (data) => {
+    const { name, password, password2, userId } = data;
+
+    if (password === password2) {
+      const data = {
+        name,
+        userId,
+        password,
+      };
+      dispatch(registerUser(data));
+
+      reset({
+        ...getValues,
+        name: '',
+        userId: '',
+        password: '',
+        password2: '',
+      });
+    }
   };
 
   return (
@@ -64,13 +117,13 @@ const Registar = () => {
         transition={{ stiffness: 32, type: 'spring' }}
       >
         <Typography variant="h4" component="h1" sx={{ fontWeight: 'bold' }}>
-          Create New User
+          سجل مستخدم جديد
         </Typography>
       </motion.div>
-      <form onSubmit={handleSubmit((data) => console.log(data))}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Stack
           direction="column"
-          sx={{ margin: '1rem auto', width: 300, gap: 2 }}
+          sx={{ margin: '1rem auto', width: 300, gap: 3 }}
         >
           <TextField
             variant="outlined"
@@ -79,7 +132,7 @@ const Registar = () => {
             })}
             label="اكتب اسمك كاملاً"
           />
-          {errors.name && <Typography>{errors.name.message}</Typography>}
+          {errors.name && <PragrafErr>{errors.name.message}</PragrafErr>}
           <TextField
             variant="outlined"
             {...register('userId', {
@@ -91,16 +144,16 @@ const Registar = () => {
             })}
             label="اكتب المعرف الخاص بك"
           />
-          {errors.userId && <Typography>{errors.userId.message}</Typography>}
+          {errors.userId && <PragrafErr>{errors.userId.message}</PragrafErr>}
           <OutlinedInput
             type={showPassword ? 'text' : 'password'}
-            value={password}
-            name="password"
-            fullWidth
-            onChange={(e) => {
-              setPassword(e.target.value);
-              changePassword(e.target.value);
-            }}
+            {...register('password', {
+              required: 'لابد من كتابة كلمة السر',
+              minLength: {
+                value: 6,
+                message: 'اقل عدد حروف هو ٦',
+              },
+            })}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
@@ -138,6 +191,9 @@ const Registar = () => {
               </Box>
             </FormControl>
           )}
+          {errors.password && (
+            <PragrafErr>{errors.password.message}</PragrafErr>
+          )}
           <OutlinedInput
             type={showPassword1 ? 'text' : 'password'}
             {...register('password2', { required: 'اعد كتابة كلمة السر' })}
@@ -160,7 +216,7 @@ const Registar = () => {
             placeholder="تاكيد كلمة السر"
           />
           {errors.password2 && (
-            <Typography>{errors.password2.message}</Typography>
+            <PragrafErr>{errors.password2.message}</PragrafErr>
           )}
           <Button type="submit" startIcon={<Add />} variant="contained">
             submit
