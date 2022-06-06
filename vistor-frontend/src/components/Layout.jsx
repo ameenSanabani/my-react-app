@@ -13,14 +13,20 @@ import {
   ListItemText,
   Avatar,
   Stack,
+  Switch,
+  Grid,
 } from '@mui/material';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
+import { ModeNight } from '@mui/icons-material/';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { modeChange } from '../features/varbile/modeSlice';
 
 const drawerWidth = 240;
 
@@ -93,6 +99,10 @@ const Layout = ({ children }) => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+  const { modeDark } = useSelector((state) => state.mode);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -101,12 +111,20 @@ const Layout = ({ children }) => {
     setOpen(false);
   };
 
+  const darkChange = () => {
+    dispatch(modeChange(!modeDark));
+    // eslint-disable-next-line
+    location.reload();
+  };
+
   return (
     <Box
       sx={{
         direction: theme.direction,
         display: 'flex',
-        bgcolor: 'background.default',
+        bgcolor: modeDark
+          ? theme.palette.primary.dark
+          : theme.palette.secondary.main,
       }}
     >
       <AppBar position="fixed" open={open}>
@@ -134,7 +152,48 @@ const Layout = ({ children }) => {
             <Typography variant="h6" noWrap component="div">
               Company Name
             </Typography>
-            <Avatar sx={{ height: 24, width: 24 }} />
+            <Grid
+              sx={{
+                display: 'flex',
+                gap: 2,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Switch
+                color="secondary"
+                onChange={darkChange}
+                checked={modeDark}
+              />
+              <ModeNight
+                sx={{
+                  display: {
+                    xs: 'none',
+                    sm: 'block',
+                    '&:hover': { color: theme.palette.primary.light },
+                  },
+                }}
+              />
+              <Grid
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: '2px',
+                  cursor: 'pointer',
+                }}
+              >
+                <Avatar
+                  sx={{ height: 27, width: 27 }}
+                  src={user?.photo ? user.photo : user?.name[0]}
+                  alt={user?.name}
+                />
+                <Typography sx={{ fontSize: 9 }}>
+                  {user?.name.split(' ')[0]}
+                </Typography>
+              </Grid>
+            </Grid>
           </Stack>
         </Toolbar>
       </AppBar>

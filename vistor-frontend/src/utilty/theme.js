@@ -1,12 +1,14 @@
 import { createTheme } from '@mui/material';
 
+const mode = localStorage.getItem('mode') === 'ON' ? 'dark' : 'light';
+
 const theme = createTheme({
   direction: 'ltr',
   palette: {
-    mode: 'light',
+    mode: mode ? mode : 'light',
     primary: {
       main: '#333',
-      dark: '#fff',
+      dark: '#121212',
       light: '#1960a5',
       error: 'red',
     },

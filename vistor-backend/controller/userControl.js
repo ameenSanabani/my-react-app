@@ -62,6 +62,7 @@ const login = asyncHnadler(async (req, res) => {
         active: user.active,
         isAdmin: user.isAdmin,
         group: user.group,
+        photo: user.photo,
         token: createToken(user._id),
       });
 
@@ -114,6 +115,25 @@ const updatUser = asyncHnadler(async (req, res) => {
         if (updatedUser) {
           const allUsers = await User.find({});
           res.status(200).json(allUsers);
+        } else {
+          res.status(400);
+          throw new Error('data you provied not correct try agin');
+        }
+      } else {
+        res.status(400);
+        throw new Error('_id not correct');
+      }
+      break;
+
+    case 'USER-UPDATE':
+      if (user) {
+        const updatedUser = await User.findByIdAndUpdate(_id, data, {
+          new: true,
+        });
+
+        if (updatedUser) {
+          const user = await User.findById(_id);
+          res.status(200).json(user);
         } else {
           res.status(400);
           throw new Error('data you provied not correct try agin');

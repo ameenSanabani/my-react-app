@@ -46,6 +46,7 @@ const Registar = () => {
   const { user, loading, seccess, isError, message } = useSelector(
     (state) => state.auth
   );
+  const { modeDark } = useSelector((state) => state.mode);
 
   React.useEffect(() => {
     if (isError) {
@@ -57,12 +58,17 @@ const Registar = () => {
     }
   }, [user, loading, seccess, isError, message, dispatch]);
 
-  const valuePassword = watch('password');
-
   React.useEffect(() => {
-    changePassword();
-    // eslint-disable-next-line
-  }, [valuePassword]);
+    const subscription = watch((data) => {
+      const temp = strengthIndicator(data.password);
+      setStrength(temp);
+      setLevel(strengthColor(temp));
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [watch]);
 
   const handleClickShowPassword = () => {
     setshowPassword(!showPassword);
@@ -74,12 +80,6 @@ const Registar = () => {
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
-  };
-
-  const changePassword = () => {
-    const temp = strengthIndicator(watch('password'));
-    setStrength(temp);
-    setLevel(strengthColor(temp));
   };
 
   const onSubmit = (data) => {
@@ -116,7 +116,14 @@ const Registar = () => {
         animate={{ y: 0 }}
         transition={{ stiffness: 32, type: 'spring' }}
       >
-        <Typography variant="h4" component="h1" sx={{ fontWeight: 'bold' }}>
+        <Typography
+          variant="h4"
+          component="h1"
+          sx={{
+            fontWeight: 'bold',
+            ...(modeDark && { color: theme.palette.secondary.main }),
+          }}
+        >
           سجل مستخدم جديد
         </Typography>
       </motion.div>
