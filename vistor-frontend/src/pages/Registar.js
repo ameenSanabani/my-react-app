@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
-import { Add, Visibility, VisibilityOff } from '@mui/icons-material';
+import { PersonAdd, Visibility, VisibilityOff } from '@mui/icons-material';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -121,7 +121,7 @@ const Registar = () => {
           component="h1"
           sx={{
             fontWeight: 'bold',
-            ...(modeDark && { color: theme.palette.secondary.main }),
+            ...(modeDark && { color: theme.palette.text.primary }),
           }}
         >
           سجل مستخدم جديد
@@ -225,7 +225,7 @@ const Registar = () => {
           {errors.password2 && (
             <PragrafErr>{errors.password2.message}</PragrafErr>
           )}
-          <Button type="submit" startIcon={<Add />} variant="contained">
+          <Button type="submit" startIcon={<PersonAdd />} variant="contained">
             submit
           </Button>
         </Stack>

@@ -1,5 +1,6 @@
 import {
   Button,
+  Grid,
   IconButton,
   Snackbar,
   Typography,
@@ -77,13 +78,24 @@ const Dashboard = () => {
           variant="h5"
           component="h1"
           sx={{
+            mt: theme.spacing,
             fontWeight: 'bold',
-            ...(modeDark && { color: theme.palette.secondary.main }),
+            ...(modeDark
+              ? { color: theme.palette.text.primary }
+              : { color: theme.palette.text.primary }),
           }}
         >
-          Your DashBoard Informations
+          Your DashBoard
         </Typography>
       </motion.div>
+      <Grid container spacing={2}>
+        <Grid item xs={6}></Grid>
+        <Grid item xs={6}></Grid>
+        <Grid item xs={6}></Grid>
+        <Grid item xs={6}></Grid>
+        <Grid item xs={6}></Grid>
+        <Grid item xs={6}></Grid>
+      </Grid>
       <Snackbar
         open={open}
         autoHideDuration={4000}

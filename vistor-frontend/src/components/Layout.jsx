@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import {
@@ -13,12 +14,19 @@ import {
   ListItemText,
   Avatar,
   Stack,
-  Switch,
   Grid,
+  Tooltip,
+  Menu,
+  MenuItem,
 } from '@mui/material';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
-import { ModeNight } from '@mui/icons-material/';
+import {
+  Logout,
+  Brightness4,
+  Brightness7,
+  Settings,
+} from '@mui/icons-material/';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -27,8 +35,9 @@ import MailIcon from '@mui/icons-material/Mail';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { modeChange } from '../features/varbile/modeSlice';
+import { logoutUser } from '../features/auth/authSlice';
 
-const drawerWidth = 240;
+const drawerWidth = 220;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -98,6 +107,11 @@ const Drawer = styled(MuiDrawer, {
 const Layout = ({ children }) => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const openMneu = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
@@ -111,10 +125,18 @@ const Layout = ({ children }) => {
     setOpen(false);
   };
 
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const darkChange = () => {
     dispatch(modeChange(!modeDark));
-    // eslint-disable-next-line
-    location.reload();
+  };
+
+  const userLogout = () => {
+    if (user) {
+      dispatch(logoutUser());
+    }
   };
 
   return (
@@ -122,9 +144,7 @@ const Layout = ({ children }) => {
       sx={{
         direction: theme.direction,
         display: 'flex',
-        bgcolor: modeDark
-          ? theme.palette.primary.dark
-          : theme.palette.secondary.main,
+        bgcolor: theme.palette.background.default,
       }}
     >
       <AppBar position="fixed" open={open}>
@@ -149,50 +169,148 @@ const Layout = ({ children }) => {
               alignItems: 'center',
             }}
           >
-            <Typography variant="h6" noWrap component="div">
+            <Typography variant="h7" noWrap component="div">
               Company Name
             </Typography>
             <Grid
               sx={{
                 display: 'flex',
-                gap: 2,
+                gap: 1,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
             >
-              <Switch
-                color="secondary"
-                onChange={darkChange}
-                checked={modeDark}
-              />
-              <ModeNight
-                sx={{
-                  display: {
-                    xs: 'none',
-                    sm: 'block',
-                    '&:hover': { color: theme.palette.primary.light },
-                  },
-                }}
-              />
-              <Grid
+              <Box
                 sx={{
                   display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
                   alignItems: 'center',
-                  gap: '2px',
-                  cursor: 'pointer',
+                  justifyContent: 'center',
                 }}
               >
-                <Avatar
-                  sx={{ height: 27, width: 27 }}
-                  src={user?.photo ? user.photo : user?.name[0]}
-                  alt={user?.name}
-                />
-                <Typography sx={{ fontSize: 9 }}>
-                  {user?.name.split(' ')[0]}
+                <Typography sx={{ fontSize: 10 }}>
+                  {theme.palette.mode} mode
                 </Typography>
-              </Grid>
+                <IconButton
+                  sx={{ ml: '2px' }}
+                  onClick={darkChange}
+                  color="inherit"
+                >
+                  {theme.palette.mode === 'dark' ? (
+                    <Brightness7 />
+                  ) : (
+                    <Brightness4 />
+                  )}
+                </IconButton>
+              </Box>
+              <React.Fragment>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    textAlign: 'center',
+                  }}
+                >
+                  <Tooltip title="Account settings">
+                    <IconButton
+                      onClick={handleClick}
+                      size="small"
+                      sx={{ ml: 2 }}
+                      aria-controls={openMneu ? 'account-menu' : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={openMneu ? 'true' : undefined}
+                    >
+                      <Grid
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          gap: '1px',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        <Avatar
+                          sx={{ height: 26, width: 26 }}
+                          src={user?.photo ? user.photo : user?.name[0]}
+                          alt={user?.name}
+                        />
+                        <Typography
+                          sx={{
+                            fontSize: 9,
+                            color: theme.palette.text.primary,
+                          }}
+                        >
+                          {user?.name.split(' ')[0]}
+                        </Typography>
+                      </Grid>
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+                <Menu
+                  anchorEl={anchorEl}
+                  id="account-menu"
+                  open={openMneu}
+                  onClose={handleClose}
+                  onClick={handleClose}
+                  PaperProps={{
+                    elevation: 0,
+                    sx: {
+                      overflow: 'visible',
+                      ...(modeDark
+                        ? {
+                            filter:
+                              'drop-shadow(0px 2px 8px rgba(255,255,255,0.32))',
+                          }
+                        : {
+                            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                          }),
+                      mt: 1.5,
+                      '& .MuiAvatar-root': {
+                        width: 32,
+                        height: 32,
+                        ml: -0.5,
+                        mr: 1,
+                      },
+                      '&:before': {
+                        content: '""',
+                        display: 'block',
+                        position: 'absolute',
+                        top: 0,
+                        right: 14,
+                        width: 10,
+                        height: 10,
+                        bgcolor: 'background.default',
+                        transform: 'translateY(-50%) rotate(45deg)',
+                        zIndex: 0,
+                      },
+                    },
+                  }}
+                  transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                  anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                >
+                  <MenuItem>
+                    <Avatar
+                      sx={{ height: 27, width: 27 }}
+                      src={user?.photo ? user.photo : user?.name[0]}
+                      alt={user?.name}
+                    />{' '}
+                    Profile
+                  </MenuItem>
+                  <Divider />
+                  <MenuItem>
+                    <ListItemIcon>
+                      <Settings fontSize="small" />
+                    </ListItemIcon>
+                    Settings
+                  </MenuItem>
+                  <MenuItem onClick={userLogout}>
+                    <ListItemIcon>
+                      <Logout fontSize="small" />
+                    </ListItemIcon>
+                    Logout
+                  </MenuItem>
+                </Menu>
+              </React.Fragment>
             </Grid>
           </Stack>
         </Toolbar>
@@ -262,7 +380,12 @@ const Layout = ({ children }) => {
         <DrawerHeader />
         <Stack
           direction="column"
-          sx={{ width: '100%', minHeight: '80vh' }}
+          sx={{
+            mt: '3rem',
+            width: '100%',
+            minHeight: '81vh',
+            bgcolor: theme.palette.background.default,
+          }}
           onClick={handleDrawerClose}
         >
           {children}
@@ -270,6 +393,10 @@ const Layout = ({ children }) => {
       </Box>
     </Box>
   );
+};
+
+Layout.propTypes = {
+  children: PropTypes.node,
 };
 
 export default Layout;

@@ -103,7 +103,6 @@ export const authSlicer = createSlice({
         state.message = action.payload;
       })
       .addCase(logoutUser.fulfilled, (state, action) => {
-        state.seccess = true;
         state.user = null;
       });
   },

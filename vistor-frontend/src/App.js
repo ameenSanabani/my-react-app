@@ -1,4 +1,5 @@
-import { CssBaseline, ThemeProvider } from '@mui/material';
+import * as React from 'react';
+import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import { Route, Routes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -6,13 +7,19 @@ import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Registar from './pages/Registar';
-import theme from './utilty/theme';
+import getDesignTokens from './utilty/theme';
 import Spinner from './components/Spinner';
 import SpinnerDark from './components/SpinnerDark';
 
 function App() {
   const { loading } = useSelector((state) => state.auth);
   const { modeDark } = useSelector((state) => state.mode);
+
+  // Update the theme only if the mode changes
+  const theme = React.useMemo(
+    () => createTheme(getDesignTokens(modeDark ? 'dark' : 'light')),
+    [modeDark]
+  );
 
   if (loading) {
     if (modeDark) {
