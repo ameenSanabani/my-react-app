@@ -3,6 +3,7 @@ import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import { Route, Routes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+// import Loadable from './components/ui-components/Loadable';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
@@ -10,6 +11,9 @@ import Registar from './pages/Registar';
 import getDesignTokens from './utilty/theme';
 import Spinner from './components/Spinner';
 import SpinnerDark from './components/SpinnerDark';
+// const DashboardDefault = Loadable(
+//   React.lazy(() => import('./components/dashboard/Default'))
+// );
 
 function App() {
   const { loading } = useSelector((state) => state.auth);

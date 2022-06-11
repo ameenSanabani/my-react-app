@@ -13,13 +13,14 @@ import axios from 'axios';
 import { Close } from '@mui/icons-material';
 
 import { reset } from '../features/auth/authSlice';
+const Chart = React.lazy(() => import('../components/Chart'));
 
 const Dashboard = () => {
   const [msg, setMsg] = React.useState('');
   const [open, setOpen] = React.useState(false);
 
   const theme = useTheme();
-  const { modeDark } = useSelector((state) => state.mode);
+  // const { modeDark } = useSelector((state) => state.mode);
   const { user, seccess } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
@@ -68,34 +69,27 @@ const Dashboard = () => {
           width: '70%',
           marginInline: 'auto',
           textAlign: 'center',
-          color: theme.palette.primary.light,
         }}
         initial={{ y: -90 }}
         animate={{ y: 0 }}
         transition={{ stiffness: 32, type: 'spring' }}
       >
         <Typography
-          variant="h5"
+          variant="h2"
           component="h1"
           sx={{
-            mt: theme.spacing,
+            marginBottom: theme.spacing(6),
             fontWeight: 'bold',
-            ...(modeDark
-              ? { color: theme.palette.text.primary }
-              : { color: theme.palette.text.primary }),
           }}
         >
           Your DashBoard
         </Typography>
       </motion.div>
-      <Grid container spacing={2}>
-        <Grid item xs={6}></Grid>
-        <Grid item xs={6}></Grid>
-        <Grid item xs={6}></Grid>
-        <Grid item xs={6}></Grid>
-        <Grid item xs={6}></Grid>
-        <Grid item xs={6}></Grid>
-      </Grid>
+      <React.Suspense fallback={<h1>under procses</h1>}>
+        <Grid container spacing={2}>
+          <Chart />
+        </Grid>
+      </React.Suspense>
       <Snackbar
         open={open}
         autoHideDuration={4000}

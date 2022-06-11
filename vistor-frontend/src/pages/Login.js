@@ -37,7 +37,7 @@ const Login = () => {
   const { user, loading, seccess, isError, message } = useSelector(
     (state) => state.auth
   );
-  const { modeDark } = useSelector((state) => state.mode);
+  // const { modeDark } = useSelector((state) => state.mode);
   const navigator = useNavigate();
 
   React.useEffect(() => {
@@ -74,21 +74,19 @@ const Login = () => {
     <>
       <motion.div
         style={{
-          width: '70%',
+          mixWidth: '70%',
           marginInline: 'auto',
           textAlign: 'center',
-          color: theme.palette.primary.light,
         }}
         initial={{ y: -90 }}
         animate={{ y: 0 }}
         transition={{ stiffness: 32, type: 'spring' }}
       >
         <Typography
-          variant="h4"
+          variant="h1"
           component="h1"
           sx={{
             fontWeight: 'bold',
-            ...(modeDark && { color: theme.palette.text.primary }),
           }}
         >
           تسجيل الدخول
@@ -100,6 +98,7 @@ const Login = () => {
           sx={{ margin: '1rem auto', width: 300, gap: 3 }}
         >
           <TextField
+            sx={{ mt: { xs: theme.spacing(3), sm: 0 } }}
             variant="outlined"
             {...register('userId', {
               required: 'اكتب المعرف الخاص بك',
@@ -112,6 +111,7 @@ const Login = () => {
           />
           {errors.userId && <PragrafErr>{errors.userId.message}</PragrafErr>}
           <OutlinedInput
+            sx={{ mt: { xs: theme.spacing(3), sm: 0 } }}
             type={showPassword ? 'text' : 'password'}
             {...register('password', { required: 'اكتب كلمة السر' })}
             endAdornment={
@@ -139,6 +139,7 @@ const Login = () => {
             type="submit"
             startIcon={<LoginOutlined />}
             variant="contained"
+            sx={{ mt: { xs: theme.spacing(4), sm: 0 } }}
           >
             login
           </Button>

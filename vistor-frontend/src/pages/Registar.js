@@ -46,7 +46,7 @@ const Registar = () => {
   const { user, loading, seccess, isError, message } = useSelector(
     (state) => state.auth
   );
-  const { modeDark } = useSelector((state) => state.mode);
+  // const { modeDark } = useSelector((state) => state.mode);
 
   React.useEffect(() => {
     if (isError) {
@@ -107,21 +107,19 @@ const Registar = () => {
     <>
       <motion.div
         style={{
-          width: '70%',
+          mixWidth: '70%',
           marginInline: 'auto',
           textAlign: 'center',
-          color: theme.palette.primary.light,
         }}
         initial={{ y: -90 }}
         animate={{ y: 0 }}
         transition={{ stiffness: 32, type: 'spring' }}
       >
         <Typography
-          variant="h4"
+          variant="h1"
           component="h1"
           sx={{
             fontWeight: 'bold',
-            ...(modeDark && { color: theme.palette.text.primary }),
           }}
         >
           سجل مستخدم جديد
@@ -130,9 +128,14 @@ const Registar = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack
           direction="column"
-          sx={{ margin: '1rem auto', width: 300, gap: 3 }}
+          sx={{
+            margin: '1rem auto',
+            width: 300,
+            gap: 3,
+          }}
         >
           <TextField
+            sx={{ mt: { xs: theme.spacing(3), sm: 0 } }}
             variant="outlined"
             {...register('name', {
               required: 'لايمكن عدم اضافة اسمك',
@@ -141,6 +144,7 @@ const Registar = () => {
           />
           {errors.name && <PragrafErr>{errors.name.message}</PragrafErr>}
           <TextField
+            sx={{ mt: { xs: theme.spacing(3), sm: 0 } }}
             variant="outlined"
             {...register('userId', {
               required: 'اكتب المعرف الخاص بك',
@@ -153,6 +157,7 @@ const Registar = () => {
           />
           {errors.userId && <PragrafErr>{errors.userId.message}</PragrafErr>}
           <OutlinedInput
+            sx={{ mt: { xs: theme.spacing(3), sm: 0 } }}
             type={showPassword ? 'text' : 'password'}
             {...register('password', {
               required: 'لابد من كتابة كلمة السر',
@@ -202,6 +207,7 @@ const Registar = () => {
             <PragrafErr>{errors.password.message}</PragrafErr>
           )}
           <OutlinedInput
+            sx={{ mt: { xs: theme.spacing(3), sm: 0 } }}
             type={showPassword1 ? 'text' : 'password'}
             {...register('password2', { required: 'اعد كتابة كلمة السر' })}
             endAdornment={
@@ -225,7 +231,12 @@ const Registar = () => {
           {errors.password2 && (
             <PragrafErr>{errors.password2.message}</PragrafErr>
           )}
-          <Button type="submit" startIcon={<PersonAdd />} variant="contained">
+          <Button
+            sx={{ mt: { xs: theme.spacing(4), sm: 0 } }}
+            type="submit"
+            startIcon={<PersonAdd />}
+            variant="contained"
+          >
             submit
           </Button>
         </Stack>
