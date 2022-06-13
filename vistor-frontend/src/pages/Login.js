@@ -75,7 +75,7 @@ const Login = () => {
       <motion.div
         style={{
           mixWidth: '70%',
-          marginInline: 'auto',
+          margin: '10px auto',
           textAlign: 'center',
         }}
         initial={{ y: -90 }}

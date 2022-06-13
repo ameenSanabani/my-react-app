@@ -9,6 +9,9 @@ const getDesignTokens = (mode) => ({
           // palette values for light mode
           primary: amber,
           divider: amber[200],
+          secondary: {
+            main: '#f8f8f8',
+          },
           text: {
             primary: grey[900],
             secondary: grey[800],
@@ -18,6 +21,9 @@ const getDesignTokens = (mode) => ({
           // palette values for dark mode
           primary: deepPurple,
           divider: deepPurple[700],
+          secondary: {
+            main: deepPurple[900],
+          },
           background: {
             default: deepPurple[800],
             paper: deepPurple[900],
@@ -35,7 +41,7 @@ const getDesignTokens = (mode) => ({
     },
   },
   shape: {
-    borderRadius: 8,
+    borderRadius: 6,
   },
   typography: {
     h6: {

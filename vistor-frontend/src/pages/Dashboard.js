@@ -13,6 +13,8 @@ import axios from 'axios';
 import { Close } from '@mui/icons-material';
 
 import { reset } from '../features/auth/authSlice';
+// import Spinner from '../components/Spinner';
+// import SpinnerDark from '../components/SpinnerDark';
 const Chart = React.lazy(() => import('../components/Chart'));
 
 const Dashboard = () => {
@@ -67,7 +69,7 @@ const Dashboard = () => {
       <motion.div
         style={{
           width: '70%',
-          marginInline: 'auto',
+          margin: '10px auto',
           textAlign: 'center',
         }}
         initial={{ y: -90 }}
@@ -85,11 +87,11 @@ const Dashboard = () => {
           Your DashBoard
         </Typography>
       </motion.div>
-      <React.Suspense fallback={<h1>under procses</h1>}>
-        <Grid container spacing={2}>
-          <Chart />
-        </Grid>
-      </React.Suspense>
+      {/* <React.Suspense fallback={modeDark ? <SpinnerDark /> : <Spinner />}> */}
+      <Grid container spacing={2} sx={{ padding: 3 }}>
+        <Chart />
+      </Grid>
+      {/* </React.Suspense> */}
       <Snackbar
         open={open}
         autoHideDuration={4000}

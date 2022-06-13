@@ -26,6 +26,7 @@ import {
   Brightness4,
   Brightness7,
   Settings,
+  Login,
 } from '@mui/icons-material/';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -33,6 +34,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { modeChange } from '../features/varbile/modeSlice';
 import { logoutUser } from '../features/auth/authSlice';
@@ -139,12 +141,19 @@ const Layout = ({ children }) => {
     }
   };
 
+  const navigate = useNavigate();
+  const loginRoute = () => {
+    navigate('/login');
+    // window.open('/login');
+    handleDrawerClose();
+  };
+
   return (
     <Box
       sx={{
         direction: theme.direction,
         display: 'flex',
-        bgcolor: theme.palette.background.default,
+        bgcolor: theme.palette.secondary.main,
       }}
     >
       <AppBar position="fixed" open={open}>
@@ -326,6 +335,30 @@ const Layout = ({ children }) => {
           </IconButton>
         </DrawerHeader>
         <Divider />
+        <List sx={{ mt: 2 }}>
+          <ListItem disablePadding sx={{ display: 'block' }}>
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+              }}
+              onClick={loginRoute}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center',
+                }}
+              >
+                <Login sx={{ ...(!open && { marginLeft: 6 }) }} />
+              </ListItemIcon>
+              <Typography sx={{ opacity: open ? 1 : 0 }}>Login</Typography>
+            </ListItemButton>
+          </ListItem>
+        </List>
+        <Divider />
         <List>
           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
@@ -383,8 +416,9 @@ const Layout = ({ children }) => {
           sx={{
             mt: '3rem',
             width: '100%',
-            minHeight: '81vh',
+            minHeight: '87.5vh',
             bgcolor: theme.palette.background.default,
+            borderRadius: theme.shape.borderRadius,
           }}
           onClick={handleDrawerClose}
         >
