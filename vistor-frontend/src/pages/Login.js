@@ -41,6 +41,10 @@ const Login = () => {
   const navigator = useNavigate();
 
   React.useEffect(() => {
+    if (user) {
+      navigator('/');
+    }
+
     if (isError) {
       console.log(message);
     }

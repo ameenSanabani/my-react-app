@@ -15,6 +15,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/users', require('./router/usersR/userRoute'));
+app.use('/api/vistors', require('./router/vistorRoute/vistorRouter'));
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../vistor-frontend/build')));
+
+  app.get('*', (req, res) =>
+    res.sendFile(
+      path.resolve(__dirname, '../', 'vistor-frontend', 'build', 'index.html')
+    )
+  );
+}
 
 app.use(errorhandler);
 app.listen(port, () => console.log('backend start'));

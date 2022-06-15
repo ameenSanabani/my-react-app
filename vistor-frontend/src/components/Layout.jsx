@@ -27,6 +27,10 @@ import {
   Brightness7,
   Settings,
   Login,
+  PersonAdd,
+  Group,
+  HowToReg,
+  AccountCircle,
 } from '@mui/icons-material/';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -145,6 +149,30 @@ const Layout = ({ children }) => {
   const loginRoute = () => {
     navigate('/login');
     // window.open('/login');
+    handleDrawerClose();
+  };
+
+  const registarRoute = () => {
+    navigate('/registar');
+    // window.open('/registar');
+    handleDrawerClose();
+  };
+
+  const usersRoute = () => {
+    navigate('/users');
+    // window.open('/registar');
+    handleDrawerClose();
+  };
+
+  const vistorRoute = () => {
+    navigate('/vistors');
+    // window.open('/registar');
+    handleDrawerClose();
+  };
+
+  const vistorControlRoute = () => {
+    navigate('/vistorscontrol');
+    // window.open('/registar');
     handleDrawerClose();
   };
 
@@ -335,28 +363,143 @@ const Layout = ({ children }) => {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List sx={{ mt: 2 }}>
-          <ListItem disablePadding sx={{ display: 'block' }}>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? 'initial' : 'center',
-                px: 2.5,
-              }}
-              onClick={loginRoute}
-            >
-              <ListItemIcon
+        <List>
+          {!user && (
+            <ListItem disablePadding sx={{ display: 'block' }}>
+              <ListItemButton
                 sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : 'auto',
-                  justifyContent: 'center',
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'flex-start',
+                  px: 2,
                 }}
+                onClick={loginRoute}
               >
-                <Login sx={{ ...(!open && { marginLeft: 6 }) }} />
-              </ListItemIcon>
-              <Typography sx={{ opacity: open ? 1 : 0 }}>Login</Typography>
-            </ListItemButton>
-          </ListItem>
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Login />
+                </ListItemIcon>
+                <Typography sx={{ opacity: open ? 1 : 0 }}>
+                  تسجيل دخول
+                </Typography>
+              </ListItemButton>
+            </ListItem>
+          )}
+          {user?.group.map((auth, index) => {
+            if (auth === 3) {
+              return (
+                <ListItem key={index} disablePadding sx={{ display: 'block' }}>
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? 'initial' : 'flex-start',
+                      px: 2,
+                    }}
+                    onClick={registarRoute}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : 'auto',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <PersonAdd />
+                    </ListItemIcon>
+                    <Typography sx={{ opacity: open ? 1 : 0 }}>
+                      مستخدم جديد
+                    </Typography>
+                  </ListItemButton>
+                </ListItem>
+              );
+            }
+          })}
+          {user?.isAdmin && (
+            <ListItem disablePadding sx={{ display: 'block' }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'flex-start',
+                  px: 2,
+                }}
+                onClick={usersRoute}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Group />
+                </ListItemIcon>
+                <Typography sx={{ opacity: open ? 1 : 0 }}>
+                  تعديل المستخدمين
+                </Typography>
+              </ListItemButton>
+            </ListItem>
+          )}
+        </List>
+        <Divider />
+        <List>
+          {user && (
+            <ListItem disablePadding sx={{ display: 'block' }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'flex-start',
+                  px: 2,
+                }}
+                onClick={vistorRoute}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <HowToReg />
+                </ListItemIcon>
+                <Typography sx={{ opacity: open ? 1 : 0 }}>
+                  اضافة زائر
+                </Typography>
+              </ListItemButton>
+            </ListItem>
+          )}
+          {user?.group.map((auth, index) => {
+            if (auth === 3) {
+              return (
+                <ListItem disablePadding sx={{ display: 'block' }}>
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? 'initial' : 'flex-start',
+                      px: 2,
+                    }}
+                    onClick={vistorControlRoute}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : 'auto',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <AccountCircle />
+                    </ListItemIcon>
+                    <Typography sx={{ opacity: open ? 1 : 0 }}>
+                      تعديل الزوار
+                    </Typography>
+                  </ListItemButton>
+                </ListItem>
+              );
+            }
+          })}
         </List>
         <Divider />
         <List>
@@ -384,39 +527,15 @@ const Layout = ({ children }) => {
           ))}
         </List>
         <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         <Stack
           direction="column"
           sx={{
-            mt: '3rem',
+            mt: '2.5rem',
             width: '100%',
-            minHeight: '87.5vh',
+            minHeight: '90vh',
             bgcolor: theme.palette.background.default,
             borderRadius: theme.shape.borderRadius,
           }}

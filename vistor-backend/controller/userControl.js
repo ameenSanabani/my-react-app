@@ -239,6 +239,16 @@ const getMe = asyncHnadler(async (req, res) => {
   }
 });
 
+const getAll = asyncHnadler(async (req, res) => {
+  const users = await User.find({});
+  if (users) {
+    res.status(200).json(users);
+  } else {
+    res.status(400);
+    throw new Error('no users found');
+  }
+});
+
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.TOKEN_SECRET, { expiresIn: '15d' });
 };
@@ -249,4 +259,5 @@ module.exports = {
   getMe,
   updatUser,
   logUsers,
+  getAll,
 };

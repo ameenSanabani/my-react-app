@@ -10,7 +10,8 @@ const getDesignTokens = (mode) => ({
           primary: amber,
           divider: amber[200],
           secondary: {
-            main: '#f8f8f8',
+            main: '#f3f3f3',
+            light: '#f8f8f8',
           },
           text: {
             primary: grey[900],
@@ -23,6 +24,7 @@ const getDesignTokens = (mode) => ({
           divider: deepPurple[700],
           secondary: {
             main: deepPurple[900],
+            light: deepPurple[700],
           },
           background: {
             default: deepPurple[800],

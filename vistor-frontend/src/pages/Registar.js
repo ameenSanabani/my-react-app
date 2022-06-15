@@ -17,6 +17,7 @@ import { useForm } from 'react-hook-form';
 import { PersonAdd, Visibility, VisibilityOff } from '@mui/icons-material';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { strengthColor, strengthIndicator } from '../utilty/password-streng';
 import { reset as resetUser, registerUser } from '../features/auth/authSlice';
@@ -48,7 +49,13 @@ const Registar = () => {
   );
   // const { modeDark } = useSelector((state) => state.mode);
 
+  const navigator = useNavigate();
+
   React.useEffect(() => {
+    if (!user) {
+      navigator('/login');
+    }
+
     if (isError) {
       console.log(message);
     }
@@ -56,7 +63,7 @@ const Registar = () => {
     if (seccess) {
       dispatch(resetUser());
     }
-  }, [user, loading, seccess, isError, message, dispatch]);
+  }, [user, loading, seccess, isError, message, dispatch, navigator]);
 
   React.useEffect(() => {
     const subscription = watch((data) => {
