@@ -4,16 +4,18 @@ import { Route, Routes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import Layout from './components/Layout';
-import Dashboard from './pages/Dashboard';
-import Error from './pages/Error';
-import RegisterVistor from './pages/RegisterVistor';
-import UsersControl from './pages/UsersControl';
-import Login from './pages/Login';
-import Registar from './pages/Registar';
+import {
+  Dashboard,
+  Error,
+  Registar,
+  UsersControl,
+  Login,
+  VistorControl,
+  RegisterVistor,
+} from './pages';
 import getDesignTokens from './utilty/theme';
 import Spinner from './components/Spinner';
 import SpinnerDark from './components/SpinnerDark';
-import VistorControl from './pages/VistorControl';
 
 function App() {
   const { loading } = useSelector((state) => state.auth);
@@ -39,6 +41,7 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Dashboard />} />
+          <Route path="/default" element={<Dashboard />} />
           <Route path="/registar" element={<Registar />} />
           <Route path="/login" element={<Login />} />
           <Route path="/users" element={<UsersControl />} />

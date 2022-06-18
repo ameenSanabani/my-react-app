@@ -148,7 +148,7 @@ const updatUser = asyncHnadler(async (req, res) => {
       if (user) {
         const updatedUser = await User.findByIdAndUpdate(
           _id,
-          { $push: data },
+          { $push: { group: { $each: data } } },
           {
             new: true,
           }

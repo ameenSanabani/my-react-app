@@ -11,6 +11,7 @@ import SpinnerDark from '../components/SpinnerDark';
 
 const VistorControl = () => {
   const [selected, setSelected] = useState([]);
+  const [groups, setGroups] = useState(false);
 
   const { user } = useSelector((state) => state.auth);
   const { vistor, isError, isSuccess, message, isLoading } = useSelector(
@@ -27,6 +28,20 @@ const VistorControl = () => {
   }, [dispatch]);
 
   useEffect(() => {
+    if (user) {
+      const authorte = () => {
+        user.group.map((itm) => {
+          if (+itm === 3) {
+            return setGroups(true);
+          } else {
+            return null;
+          }
+        });
+      };
+
+      authorte();
+    }
+
     if (isError) {
       console.log(message);
     }
@@ -34,7 +49,7 @@ const VistorControl = () => {
     if (!user) {
       navigate('/login');
     }
-  }, [user, vistor, isError, isSuccess, message, dispatch, navigate]);
+  }, [user, vistor, isError, isSuccess, message, dispatch, navigate, groups]);
 
   const clumns = [
     {
@@ -95,6 +110,15 @@ const VistorControl = () => {
       headerAlign: 'left',
       // cellClassName: 'rowsTable',
     },
+    {
+      field: 'user',
+      headerName: 'user',
+      width: 250,
+      sortable: false,
+      headerClassName: 'headerTable',
+      headerAlign: 'left',
+      // cellClassName: 'rowsTable',
+    },
   ];
 
   const rows = vistor
@@ -106,6 +130,7 @@ const VistorControl = () => {
         resone: vist?.resone,
         createdAt: new Date(vist?.createdAt).toLocaleString('en-GB'),
         id: vist?._id,
+        user: vist?.user,
       }))
     : [];
 
@@ -149,7 +174,7 @@ const VistorControl = () => {
           alignItems: 'center',
         }}
       >
-        <Typography variant="h4" component="h1">
+        <Typography variant="h1" component="h1">
           معلومات عن الزائرين
         </Typography>
 
@@ -190,7 +215,9 @@ const VistorControl = () => {
           onSelectionModelChange={(params) => setSelected(params)}
           // rowsPerPageOptions={[5]}
           checkboxSelection
-          isRowSelectable={(params) => params.row.resone !== 'just for test'}
+          isRowSelectable={(params) =>
+            groups ? params.row.user !== 1 : params.row.user === user?.id
+          }
         />
       </Grid>
     </Grid>

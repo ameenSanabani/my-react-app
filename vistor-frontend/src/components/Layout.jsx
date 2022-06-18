@@ -390,7 +390,7 @@ const Layout = ({ children }) => {
             </ListItem>
           )}
           {user?.group.map((auth, index) => {
-            if (auth === 3) {
+            if (+auth === 3) {
               return (
                 <ListItem key={index} disablePadding sx={{ display: 'block' }}>
                   <ListItemButton
@@ -416,6 +416,8 @@ const Layout = ({ children }) => {
                   </ListItemButton>
                 </ListItem>
               );
+            } else {
+              return null;
             }
           })}
           {user?.isAdmin && (
@@ -472,9 +474,9 @@ const Layout = ({ children }) => {
             </ListItem>
           )}
           {user?.group.map((auth, index) => {
-            if (auth === 3) {
+            if (+auth === 1) {
               return (
-                <ListItem disablePadding sx={{ display: 'block' }}>
+                <ListItem key={index} disablePadding sx={{ display: 'block' }}>
                   <ListItemButton
                     sx={{
                       minHeight: 48,
@@ -498,6 +500,8 @@ const Layout = ({ children }) => {
                   </ListItemButton>
                 </ListItem>
               );
+            } else {
+              return null;
             }
           })}
         </List>
