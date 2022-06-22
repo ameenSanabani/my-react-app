@@ -16,6 +16,7 @@ import {
 import getDesignTokens from './utilty/theme';
 import Spinner from './components/Spinner';
 import SpinnerDark from './components/SpinnerDark';
+import Info from './pages/users/reguler/[id]/Info';
 
 function App() {
   const { loading } = useSelector((state) => state.auth);
@@ -47,6 +48,7 @@ function App() {
           <Route path="/users" element={<UsersControl />} />
           <Route path="/vistors" element={<RegisterVistor />} />
           <Route path="/vistorscontrol" element={<VistorControl />} />
+          <Route path="/users/:userId" element={<Info />} />
           <Route path="/*" element={<Error />} />
         </Routes>
       </Layout>

@@ -27,7 +27,7 @@ const createUser = asyncHnadler(async (req, res) => {
 
   if (userCreated) {
     res.status(201).json({
-      id: userCreated._id,
+      _id: userCreated._id,
       name: userCreated.name,
       userId: userCreated.userId,
       active: userCreated.active,
@@ -56,7 +56,7 @@ const login = asyncHnadler(async (req, res) => {
   if (user && (await bcrypt.compare(password, user.password))) {
     if (user.active) {
       res.status(200).json({
-        id: user._id,
+        _id: user._id,
         name: user.name,
         userId: user.userId,
         active: user.active,
@@ -88,11 +88,11 @@ const updatUser = asyncHnadler(async (req, res) => {
 
   switch (updateType) {
     case 'CHANGE-Password':
-      const { oldPassword, newPassword } = data;
+      const { oldpass, newpass } = data;
 
-      if (user && (await bcrypt.compare(oldPassword, user.password))) {
+      if (user && (await bcrypt.compare(oldpass, user.password))) {
         const salt = await bcrypt.genSalt(10);
-        const hashPass = await bcrypt.hash(newPassword, salt);
+        const hashPass = await bcrypt.hash(newpass, salt);
 
         await User.findByIdAndUpdate(
           _id,
@@ -191,22 +191,22 @@ const updatUser = asyncHnadler(async (req, res) => {
       break;
 
     case 'UPLOAD-IMAG':
-      if (req.body.files === null) {
+      if (req.files === null) {
         res.status(400);
         throw new Error('No file to uplod');
       }
 
-      const file = req.body.files.file;
-
+      const file = req.files.file;
       file.mv(
         `/Users/sanabani/Desktop/regaster-vistors/vistor-frontend/public/imags/${file.name}`,
         (err) => {
           if (err) {
             return res.status(500).json(err);
           }
-          res
-            .status(200)
-            .json({ fileName: file.name, filePath: `/imags/${file.name}` });
+          res.status(200).json({
+            fileName: file.name,
+            filePath: `/imags/${file.name}`,
+          });
         }
       );
       break;
@@ -232,7 +232,15 @@ const getMe = asyncHnadler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
   if (user) {
-    res.status(200).json(user);
+    res.status(201).json({
+      _id: user._id,
+      name: user.name,
+      userId: user.userId,
+      active: user.active,
+      isAdmin: user.isAdmin,
+      group: user.group,
+      token: createToken(user._id),
+    });
   } else {
     res.status(401);
     throw new Error('bad data user');

@@ -13,8 +13,6 @@ import axios from 'axios';
 import { Close } from '@mui/icons-material';
 
 import { reset } from '../features/auth/authSlice';
-// import Spinner from '../components/Spinner';
-// import SpinnerDark from '../components/SpinnerDark';
 const Chart = React.lazy(() => import('../components/Chart'));
 
 const Dashboard = () => {
@@ -22,7 +20,6 @@ const Dashboard = () => {
   const [open, setOpen] = React.useState(false);
 
   const theme = useTheme();
-  // const { modeDark } = useSelector((state) => state.mode);
   const { user, seccess } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
@@ -30,7 +27,7 @@ const Dashboard = () => {
   React.useEffect(() => {
     if (seccess) {
       const getLog = async () => {
-        const response = await axios.post(`/users/${user.id}`);
+        const response = await axios.post(`/users/${user._id}`);
         setMsg(response.data);
       };
 

@@ -134,7 +134,7 @@ const RegisterVistor = () => {
           container
           spacing={2}
           sx={{
-            maxWidth: 400,
+            maxWidth: { xs: 300, sm: 400 },
             margin: '10px auto',
           }}
           bgcolor={theme.palette.background.default}

@@ -1,6 +1,8 @@
 const express = require('express');
 const dotenv = require('dotenv').config();
 const colors = require('colors');
+const fileupload = require('express-fileupload');
+const cors = require('cors');
 
 const mongoDB = require('./utilty/db');
 const errorhandler = require('./middleWare/errorMiddle');
@@ -9,7 +11,15 @@ const app = express();
 
 mongoDB();
 
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+  })
+);
+
 const port = process.env.PORT || 8000;
+
+app.use(fileupload());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

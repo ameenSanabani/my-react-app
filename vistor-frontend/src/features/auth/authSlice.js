@@ -63,6 +63,23 @@ export const logoutUser = createAsyncThunk(
   }
 );
 
+export const changPassword = createAsyncThunk(
+  'auth/changPassword',
+  async (passwordEdit, thunkAPI) => {
+    try {
+      return await authServies.passwordChange(passwordEdit);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const updateInfo = createAsyncThunk(
   'auth/updateInfo',
   async (data, thunkAPI) => {
@@ -80,6 +97,19 @@ export const updateInfo = createAsyncThunk(
     }
   }
 );
+
+export const getMy = createAsyncThunk('auth/getMy', async (thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.user.token;
+    return await authServies.gMy(token);
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
 
 export const authSlicer = createSlice({
   name: 'auth',
@@ -125,13 +155,32 @@ export const authSlicer = createSlice({
       .addCase(updateInfo.fulfilled, (state, action) => {
         state.loading = false;
         state.seccess = true;
+        state.user = action.payload;
       })
       .addCase(updateInfo.rejected, (state, action) => {
         state.loading = false;
         state.isErorr = true;
         state.message = action.payload;
       })
-      .addCase(logoutUser.fulfilled, (state, action) => {
+      .addCase(changPassword.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(changPassword.fulfilled, (state, action) => {
+        state.loading = false;
+        state.seccess = true;
+      })
+      .addCase(changPassword.rejected, (state, action) => {
+        state.loading = false;
+        state.isErorr = true;
+        state.message = action.payload;
+      })
+      .addCase(getMy.fulfilled, (state, action) => {
+        state.user = action.payload;
+      })
+      .addCase(getMy.rejected, (state, action) => {
+        state.message = action.payload;
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
       });
   },

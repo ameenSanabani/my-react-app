@@ -176,6 +176,12 @@ const Layout = ({ children }) => {
     handleDrawerClose();
   };
 
+  const profileRoute = () => {
+    navigate(`/users/${user?._id}`);
+    // window.open('/registar');
+    handleDrawerClose();
+  };
+
   return (
     <Box
       sx={{
@@ -325,7 +331,7 @@ const Layout = ({ children }) => {
                   transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                   anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                 >
-                  <MenuItem>
+                  <MenuItem onClick={profileRoute}>
                     <Avatar
                       sx={{ height: 27, width: 27 }}
                       src={user?.photo ? user.photo : user?.name[0]}

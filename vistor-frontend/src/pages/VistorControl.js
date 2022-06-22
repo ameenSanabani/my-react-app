@@ -11,7 +11,6 @@ import SpinnerDark from '../components/SpinnerDark';
 
 const VistorControl = () => {
   const [selected, setSelected] = useState([]);
-  const [groups, setGroups] = useState(false);
 
   const { user } = useSelector((state) => state.auth);
   const { vistor, isError, isSuccess, message, isLoading } = useSelector(
@@ -28,20 +27,6 @@ const VistorControl = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (user) {
-      const authorte = () => {
-        user.group.map((itm) => {
-          if (+itm === 3) {
-            return setGroups(true);
-          } else {
-            return null;
-          }
-        });
-      };
-
-      authorte();
-    }
-
     if (isError) {
       console.log(message);
     }
@@ -49,7 +34,7 @@ const VistorControl = () => {
     if (!user) {
       navigate('/login');
     }
-  }, [user, vistor, isError, isSuccess, message, dispatch, navigate, groups]);
+  }, [user, vistor, isError, isSuccess, message, dispatch, navigate]);
 
   const clumns = [
     {
@@ -141,6 +126,23 @@ const VistorControl = () => {
     }
   };
 
+  const authorty = (params) => {
+    let result;
+
+    user?.group.map((itm) => {
+      if (+itm === 3) {
+        return (result = params.row.user !== 1);
+      }
+      if (+itm === 2) {
+        return (result = params.row.user === 1);
+      } else {
+        return (result = params.row.user === user?.id);
+      }
+    });
+
+    return result;
+  };
+
   if (isLoading) {
     if (modeDark) {
       return <SpinnerDark />;
@@ -215,9 +217,7 @@ const VistorControl = () => {
           onSelectionModelChange={(params) => setSelected(params)}
           // rowsPerPageOptions={[5]}
           checkboxSelection
-          isRowSelectable={(params) =>
-            groups ? params.row.user !== 1 : params.row.user === user?.id
-          }
+          isRowSelectable={(params) => authorty(params)}
         />
       </Grid>
     </Grid>

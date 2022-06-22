@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateInfo, reset } from '../features/auth/authSlice';
+import { reset } from '../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { Grid, Typography, useTheme } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
@@ -39,7 +39,25 @@ const UsersControl = () => {
 
     fitchUsers();
     dispatch(reset());
-  }, [user, isError, message, dispatch, navigate]);
+  }, [user, isError, message, navigate, dispatch]);
+
+  const rowUpdate = async () => {
+    if (editValue) {
+      const userUpd = {
+        updateType: 'USER-UPDATE',
+        _id: edit.id,
+        data: {
+          [edit.field]: editValue,
+        },
+      };
+
+      await axios.put('/users/update', userUpd);
+      const response = await axios('/users/all');
+
+      setSelected(response.data);
+      setEditValue('');
+    }
+  };
 
   const clumns = [
     {
@@ -145,21 +163,6 @@ const UsersControl = () => {
         updatedAt: new Date(usr?.updatedAt).toLocaleString('en-GB'),
       }))
     : [];
-
-  const rowUpdate = () => {
-    if (editValue) {
-      const userUpd = {
-        updateType: 'USER-UPDATE',
-        _id: edit.id,
-        data: {
-          [edit.field]: editValue,
-        },
-      };
-
-      dispatch(updateInfo(userUpd));
-      setEditValue('');
-    }
-  };
 
   return (
     <>
