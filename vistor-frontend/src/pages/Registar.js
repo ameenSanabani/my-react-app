@@ -11,6 +11,7 @@ import {
   Grid,
   Box,
   styled,
+  Alert,
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
@@ -44,7 +45,7 @@ const Registar = () => {
   } = useForm();
   const dispatch = useDispatch();
 
-  const { user, loading, seccess, isError, message } = useSelector(
+  const { user, loading, seccess, isErorr, message } = useSelector(
     (state) => state.auth
   );
   // const { modeDark } = useSelector((state) => state.mode);
@@ -56,14 +57,14 @@ const Registar = () => {
       navigator('/login');
     }
 
-    if (isError) {
+    if (isErorr) {
       console.log(message);
     }
 
     if (seccess) {
       dispatch(resetUser());
     }
-  }, [user, loading, seccess, isError, message, dispatch, navigator]);
+  }, [user, loading, seccess, isErorr, message, dispatch, navigator]);
 
   React.useEffect(() => {
     const subscription = watch((data) => {
@@ -149,7 +150,11 @@ const Registar = () => {
             })}
             label="اكتب اسمك كاملاً"
           />
-          {errors.name && <PragrafErr>{errors.name.message}</PragrafErr>}
+          {errors.name && (
+            <Alert severity="warning">
+              <PragrafErr>{errors.name.message}</PragrafErr>
+            </Alert>
+          )}
           <TextField
             sx={{ mt: { xs: theme.spacing(3), sm: 0 } }}
             variant="outlined"
@@ -162,7 +167,11 @@ const Registar = () => {
             })}
             label="اكتب المعرف الخاص بك"
           />
-          {errors.userId && <PragrafErr>{errors.userId.message}</PragrafErr>}
+          {errors.userId && (
+            <Alert severity="error">
+              <PragrafErr>{errors.userId.message}</PragrafErr>
+            </Alert>
+          )}
           <OutlinedInput
             sx={{ mt: { xs: theme.spacing(3), sm: 0 } }}
             type={showPassword ? 'text' : 'password'}
@@ -211,7 +220,9 @@ const Registar = () => {
             </FormControl>
           )}
           {errors.password && (
-            <PragrafErr>{errors.password.message}</PragrafErr>
+            <Alert severity="warning">
+              <PragrafErr>{errors.password.message}</PragrafErr>
+            </Alert>
           )}
           <OutlinedInput
             sx={{ mt: { xs: theme.spacing(3), sm: 0 } }}
@@ -236,7 +247,9 @@ const Registar = () => {
             placeholder="تاكيد كلمة السر"
           />
           {errors.password2 && (
-            <PragrafErr>{errors.password2.message}</PragrafErr>
+            <Alert severity="warning">
+              <PragrafErr>{errors.password2.message}</PragrafErr>
+            </Alert>
           )}
           <Button
             sx={{ mt: { xs: theme.spacing(4), sm: 0 } }}

@@ -38,11 +38,10 @@ const vistorDel = async (praper, token) => {
   return response.data;
 };
 
-const updVistor = async (vistorId, updatedInfo) => {
-  const token = JSON.parse(localStorage.getItem('user'));
+const updVistor = async (vistorId, updatedInfo, token) => {
   const config = {
     headers: {
-      Authorization: `Bearer ${token.token}`,
+      Authorization: `Bearer ${token}`,
     },
   };
   const response = await axios.put(API_URL + vistorId, updatedInfo, config);

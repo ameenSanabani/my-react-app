@@ -67,7 +67,8 @@ export const changPassword = createAsyncThunk(
   'auth/changPassword',
   async (passwordEdit, thunkAPI) => {
     try {
-      return await authServies.passwordChange(passwordEdit);
+      const token = thunkAPI.getState().auth.user.token;
+      return await authServies.passwordChange(passwordEdit, token);
     } catch (error) {
       const message =
         (error.response &&

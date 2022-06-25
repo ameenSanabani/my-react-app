@@ -1,5 +1,7 @@
 const asyncHandler = require('express-async-handler');
+
 const Vistor = require('../moduls/vistors/vistorModul');
+const UpdateVistor = require('../moduls/vistors/updateVistorModels');
 
 const addVistor = asyncHandler(async (req, res) => {
   const { name, company, mobile, resone } = req.body;
@@ -34,13 +36,21 @@ const getVistors = asyncHandler(async (req, res) => {
 });
 
 const deleteVistor = asyncHandler(async (req, res) => {
-  const obj = [...req.params.id.split(',')];
+  const obj = [...req.params.editid.split(',')];
 
   const ids = obj.map((id) => ({
     _id: id,
   }));
 
+  const vistorsDels = await Vistor.find({ $or: ids });
+
   await Vistor.deleteMany({ $or: ids });
+
+  await UpdateVistor.create({
+    user: req.user._id,
+    kind: 'delete',
+    before: vistorsDels,
+  });
 
   const vistors = await Vistor.find();
 
@@ -67,6 +77,13 @@ const updateVistor = asyncHandler(async (req, res) => {
       { new: true }
     );
     res.status(200).json(updatedVistor);
+
+    await UpdateVistor.create({
+      user: req.user._id,
+      kind: 'update',
+      before: vistor,
+      after: updatedVistor,
+    });
   } else {
     res.status(400);
     throw new Error('not authorized to update vistor');

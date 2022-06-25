@@ -9,6 +9,9 @@ const {
 const protact = require('../../middleWare/protcetMiddle');
 
 router.route('/').get(getVistors).post(protact, addVistor);
-router.route('/:id').delete(deleteVistor).put(protact, updateVistor);
+router
+  .route('/:editid')
+  .delete(protact, deleteVistor)
+  .put(protact, updateVistor);
 
 module.exports = router;

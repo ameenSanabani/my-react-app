@@ -6,13 +6,18 @@ import { Grid, Typography, useTheme } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import axios from 'axios';
 
+import Spinner from '../components/Spinner';
+import SpinnerDark from '../components/SpinnerDark';
+
 const UsersControl = () => {
   const [selected, setSelected] = useState([]);
   const [edit, setEdit] = useState(null);
   // eslint-disable-next-line
   const [editValue, setEditValue] = useState('');
+  const [pending, setPending] = useState(false);
 
-  const { user, isError, message } = useSelector((state) => state.auth);
+  const { user, isErorr, message } = useSelector((state) => state.auth);
+  const { modeDark } = useSelector((state) => state.mode);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -27,7 +32,7 @@ const UsersControl = () => {
       navigate('/');
     }
 
-    if (isError) {
+    if (isErorr) {
       console.log(message);
     }
 
@@ -39,9 +44,10 @@ const UsersControl = () => {
 
     fitchUsers();
     dispatch(reset());
-  }, [user, isError, message, navigate, dispatch]);
+  }, [user, isErorr, message, navigate, dispatch]);
 
   const rowUpdate = async () => {
+    setPending(true);
     if (editValue) {
       const userUpd = {
         updateType: 'USER-UPDATE',
@@ -51,12 +57,19 @@ const UsersControl = () => {
         },
       };
 
-      await axios.put('/users/update', userUpd);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+
+      await axios.put('/users/update', userUpd, config);
       const response = await axios('/users/all');
 
       setSelected(response.data);
       setEditValue('');
     }
+    setPending(false);
   };
 
   const clumns = [
@@ -163,6 +176,14 @@ const UsersControl = () => {
         updatedAt: new Date(usr?.updatedAt).toLocaleString('en-GB'),
       }))
     : [];
+
+  if (pending) {
+    if (modeDark) {
+      return <SpinnerDark />;
+    } else {
+      return <Spinner />;
+    }
+  }
 
   return (
     <>

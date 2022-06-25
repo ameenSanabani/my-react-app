@@ -1,8 +1,10 @@
 const User = require('../moduls/users/userModul');
-const LoginInfo = require('../moduls/users/loginInfo');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const asyncHnadler = require('express-async-handler');
+
+const LoginInfo = require('../moduls/users/loginInfo');
+const UpdatedInfo = require('../moduls/users/updatedInfo');
 
 const createUser = asyncHnadler(async (req, res) => {
   const { name, userId, password } = req.body;
@@ -94,12 +96,12 @@ const updatUser = asyncHnadler(async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashPass = await bcrypt.hash(newpass, salt);
 
-        await User.findByIdAndUpdate(
+        const changedUser = await User.findByIdAndUpdate(
           _id,
           { password: hashPass },
           { new: true }
         );
-        res.status(200).json(_id);
+        res.status(200).json(changedUser);
       } else {
         res.status(400);
         throw new Error('old password not correct');
@@ -132,8 +134,21 @@ const updatUser = asyncHnadler(async (req, res) => {
         });
 
         if (updatedUser) {
-          const user = await User.findById(_id);
-          res.status(200).json(user);
+          res.status(200).json({
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            userId: updatedUser.userId,
+            active: updatedUser.active,
+            isAdmin: updatedUser.isAdmin,
+            group: updatedUser.group,
+            token: createToken(updatedUser._id),
+          });
+
+          await UpdatedInfo.create({
+            user: req.user._id,
+            pefore: user,
+            after: updatedUser,
+          });
         } else {
           res.status(400);
           throw new Error('data you provied not correct try agin');
@@ -157,6 +172,12 @@ const updatUser = asyncHnadler(async (req, res) => {
         if (updatedUser) {
           const allUsers = await User.find({});
           res.status(200).json(allUsers);
+
+          await UpdatedInfo.create({
+            user: req.user._id,
+            pefore: user,
+            after: updatedUser,
+          });
         } else {
           res.status(400);
           throw new Error('data you provied not correct try agin');
@@ -180,6 +201,12 @@ const updatUser = asyncHnadler(async (req, res) => {
         if (updatedUser) {
           const allUsers = await User.find({});
           res.status(200).json(allUsers);
+
+          await UpdatedInfo.create({
+            user: req.user._id,
+            pefore: user,
+            after: updatedUser,
+          });
         } else {
           res.status(400);
           throw new Error('data you provied not correct try agin');

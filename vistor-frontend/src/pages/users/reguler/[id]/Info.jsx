@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {
+  Alert,
   Box,
   Button,
   Fab,
@@ -60,7 +61,7 @@ const Info = () => {
   const navigate = useNavigate();
   const router = useParams();
 
-  const { user, isError, loading, seccess, message } = useSelector(
+  const { user, isErorr, loading, seccess, message } = useSelector(
     (state) => state.auth
   );
 
@@ -72,6 +73,7 @@ const Info = () => {
   };
 
   const openInfoUpd = () => {
+    dispatch(reset());
     setPassOpen(false);
     setInfoOpen(!infoOpen);
   };
@@ -81,18 +83,12 @@ const Info = () => {
       navigate('/');
     }
 
-    if (isError) {
-      console.log(message);
-    }
-
     if (seccess && user) {
+      dispatch(reset());
       navigate('/');
     }
-
     setName(user?.name);
-    setInfoOpen(true);
-    dispatch(reset());
-  }, [user, isError, seccess, message, navigate, dispatch, router]);
+  }, [user, isErorr, seccess, message, navigate, dispatch, router]);
 
   const onSubmitPass = (e) => {
     e.preventDefault();
@@ -109,15 +105,12 @@ const Info = () => {
         };
 
         dispatch(changPassword(passwordEdit));
-      } else {
-        console.log('passwords not match');
       }
-    } else {
-      console.log('complete passwords');
     }
   };
 
   const controlPass = () => {
+    dispatch(reset());
     setInfoOpen(false);
     setPassOpen(!passOpen);
   };
@@ -153,7 +146,7 @@ const Info = () => {
 
   const updatInfo = async (e) => {
     e.preventDefault();
-    console.log(upload);
+
     if (upload.file) {
       const formData = new FormData();
       formData.append('file', upload.file);
@@ -163,6 +156,7 @@ const Info = () => {
         const response = await axios.put('/users/update', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${user.token}`,
           },
         });
 
@@ -184,8 +178,6 @@ const Info = () => {
       } catch (error) {
         if (error.response.status === 500) {
           console.log('no server hundle storage');
-          console.log(message);
-        } else {
           console.log(message);
         }
       }
@@ -242,6 +234,7 @@ const Info = () => {
           update information
         </Button>
       </Grid>
+      {isErorr && <Alert severity="error">{message}</Alert>}
       {infoOpen && (
         <form onSubmit={updatInfo}>
           <Grid

@@ -12,7 +12,7 @@ const protact = require('../../middleWare/protcetMiddle');
 
 router.route('/').get(protact, getMe).post(createUser);
 router.post('/login', login);
-router.put('/update', updatUser);
+router.put('/update', protact, updatUser);
 router.post('/:userId', logUsers);
 router.get('/all', getAll);
 

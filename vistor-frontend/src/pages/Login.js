@@ -8,6 +8,7 @@ import {
   Typography,
   useTheme,
   styled,
+  Alert,
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
@@ -34,7 +35,7 @@ const Login = () => {
   } = useForm();
   const dispatch = useDispatch();
 
-  const { user, loading, seccess, isError, message } = useSelector(
+  const { user, loading, seccess, isErorr, message } = useSelector(
     (state) => state.auth
   );
   // const { modeDark } = useSelector((state) => state.mode);
@@ -45,14 +46,10 @@ const Login = () => {
       navigator('/');
     }
 
-    if (isError) {
-      console.log(message);
-    }
-
     if (seccess) {
       navigator('/');
     }
-  }, [user, loading, seccess, isError, message, dispatch, navigator]);
+  }, [user, loading, seccess, message, navigator]);
 
   const handleClickShowPassword = () => {
     setshowPassword(!showPassword);
@@ -101,6 +98,7 @@ const Login = () => {
           direction="column"
           sx={{ margin: '1rem auto', width: 300, gap: 3 }}
         >
+          {isErorr && <Alert severity="error">{message}</Alert>}
           <TextField
             sx={{ mt: { xs: theme.spacing(3), sm: 0 } }}
             variant="outlined"

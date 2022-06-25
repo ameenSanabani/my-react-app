@@ -50,7 +50,7 @@ export const delVistor = createAsyncThunk(
   'vistor/delVistor',
   async (praper, thunkAPI) => {
     try {
-      const token = thunkAPI.getState().auth.token;
+      const token = thunkAPI.getState().auth.user.token;
       return await vistorServes.vistorDel(praper, token);
     } catch (error) {
       const message =
@@ -68,7 +68,7 @@ export const updVistor = createAsyncThunk(
   'viistor/updVistor',
   async (vistorId, updatedInfo, thunkAPI) => {
     try {
-      const token = thunkAPI.getState().auth.token;
+      const token = thunkAPI.getState().auth.user.token;
       return await vistorServes.vistorUpd(vistorId, updatedInfo, token);
     } catch (error) {
       const message =

@@ -30,12 +30,17 @@ const infoUpdate = async (data, token) => {
   };
 
   const response = await axios.put(`${USER_URI}/update`, data, config);
-
   return response.data;
 };
 
-const passwordChange = async (passwordEdit) => {
-  const response = await axios.put(`${USER_URI}/update`, passwordEdit);
+const passwordChange = async (passwordEdit, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.put(`${USER_URI}/update`, passwordEdit, config);
 
   return response.data;
 };
