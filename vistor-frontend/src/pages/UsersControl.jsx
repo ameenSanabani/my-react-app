@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { reset } from '../features/auth/authSlice';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Grid, Typography, useTheme } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
@@ -19,7 +18,6 @@ const UsersControl = () => {
   const { user, isErorr, message } = useSelector((state) => state.auth);
   const { modeDark } = useSelector((state) => state.mode);
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const theme = useTheme();
 
@@ -37,14 +35,15 @@ const UsersControl = () => {
     }
 
     const fitchUsers = async () => {
+      setPending(true);
       const response = await axios('/users/all');
 
       setSelected(response.data);
+      setPending(false);
     };
 
     fitchUsers();
-    dispatch(reset());
-  }, [user, isErorr, message, navigate, dispatch]);
+  }, [user, isErorr, message, navigate]);
 
   const rowUpdate = async () => {
     setPending(true);

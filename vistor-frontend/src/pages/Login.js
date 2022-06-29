@@ -9,6 +9,8 @@ import {
   useTheme,
   styled,
   Alert,
+  Grid,
+  Divider,
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
@@ -72,82 +74,106 @@ const Login = () => {
   };
 
   return (
-    <>
-      <motion.div
-        style={{
-          mixWidth: '70%',
-          margin: '10px auto',
-          textAlign: 'center',
+    <Grid
+      sx={{
+        width: '100%',
+        height: '90vh',
+        display: 'grid',
+        placeItems: 'center',
+      }}
+    >
+      <Grid
+        sx={{
+          width: 350,
+          height: 350,
+          bgcolor: theme.palette.secondary.main,
+          borderRadius: theme.shape.borderRadius,
+          display: 'grid',
+          placeItems: 'center',
         }}
-        initial={{ y: -90 }}
-        animate={{ y: 0 }}
-        transition={{ stiffness: 32, type: 'spring' }}
       >
-        <Typography
-          variant="h1"
-          component="h1"
-          sx={{
-            fontWeight: 'bold',
-          }}
-        >
-          تسجيل الدخول
-        </Typography>
-      </motion.div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack
-          direction="column"
-          sx={{ margin: '1rem auto', width: 300, gap: 3 }}
-        >
-          {isErorr && <Alert severity="error">{message}</Alert>}
-          <TextField
-            sx={{ mt: { xs: theme.spacing(3), sm: 0 } }}
-            variant="outlined"
-            {...register('userId', {
-              required: 'اكتب المعرف الخاص بك',
-              minLength: {
-                value: 4,
-                message: 'لايقل عدد حروف المعرف عن ٤',
-              },
-            })}
-            label="اكتب المعرف الخاص بك"
-          />
-          {errors.userId && <PragrafErr>{errors.userId.message}</PragrafErr>}
-          <OutlinedInput
-            sx={{ mt: { xs: theme.spacing(3), sm: 0 } }}
-            type={showPassword ? 'text' : 'password'}
-            {...register('password', { required: 'اكتب كلمة السر' })}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ? (
-                    <VisibilityOff sx={{ width: 20 }} />
-                  ) : (
-                    <Visibility sx={{ width: 20 }} />
-                  )}
-                </IconButton>
-              </InputAdornment>
-            }
-            placeholder="اكتب كلمة السر"
-          />
-          {errors.password && (
-            <PragrafErr>{errors.password.message}</PragrafErr>
-          )}
-          <Button
-            type="submit"
-            startIcon={<LoginOutlined />}
-            variant="contained"
-            sx={{ mt: { xs: theme.spacing(4), sm: 0 } }}
+        <Grid width="100%">
+          <motion.div
+            style={{
+              mixWidth: '70%',
+              marginInline: 'auto',
+              marginBottom: 2,
+              textAlign: 'center',
+            }}
+            initial={{ y: -300 }}
+            animate={{ y: 0 }}
+            transition={{ stiffness: 32, type: 'spring' }}
           >
-            login
-          </Button>
-        </Stack>
-      </form>
-    </>
+            <Typography
+              variant="h1"
+              component="h1"
+              sx={{
+                fontWeight: 'bold',
+              }}
+            >
+              تسجيل الدخول
+            </Typography>
+          </motion.div>
+          <Divider />
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Stack
+              direction="column"
+              sx={{ margin: '0 auto', width: 300, gap: 3 }}
+            >
+              {isErorr && <Alert severity="error">{message}</Alert>}
+              <TextField
+                sx={{ mt: { xs: theme.spacing(3), sm: 0 } }}
+                variant="outlined"
+                {...register('userId', {
+                  required: 'اكتب المعرف الخاص بك',
+                  minLength: {
+                    value: 4,
+                    message: 'لايقل عدد حروف المعرف عن ٤',
+                  },
+                })}
+                label="اكتب المعرف الخاص بك"
+              />
+              {errors.userId && (
+                <PragrafErr>{errors.userId.message}</PragrafErr>
+              )}
+              <OutlinedInput
+                sx={{ mt: { xs: theme.spacing(3), sm: 0 } }}
+                type={showPassword ? 'text' : 'password'}
+                {...register('password', { required: 'اكتب كلمة السر' })}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? (
+                        <VisibilityOff sx={{ width: 20 }} />
+                      ) : (
+                        <Visibility sx={{ width: 20 }} />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                placeholder="اكتب كلمة السر"
+              />
+              {errors.password && (
+                <PragrafErr>{errors.password.message}</PragrafErr>
+              )}
+              <Button
+                type="submit"
+                startIcon={<LoginOutlined />}
+                variant="contained"
+                sx={{ mt: { xs: theme.spacing(4), sm: 0 } }}
+              >
+                login
+              </Button>
+            </Stack>
+          </form>
+        </Grid>
+      </Grid>
+    </Grid>
   );
 };
 

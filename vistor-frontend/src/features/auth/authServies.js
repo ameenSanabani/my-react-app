@@ -5,7 +5,12 @@ const USER_URI = '/users';
 const registerUsers = async (data) => {
   const response = await axios.post(USER_URI, data);
   if (response.data) {
-    localStorage.setItem('auth', JSON.stringify(response.data));
+    const data = {
+      time: new Date().toLocaleString(),
+      user: response.data,
+    };
+
+    localStorage.setItem('auth', JSON.stringify(data));
   }
   return response.data;
 };
@@ -13,7 +18,12 @@ const registerUsers = async (data) => {
 const loginUsers = async (data) => {
   const response = await axios.post(`${USER_URI}/login`, data);
   if (response.data) {
-    localStorage.setItem('auth', JSON.stringify(response.data));
+    const data = {
+      time: new Date().toLocaleString(),
+      user: response.data,
+    };
+
+    localStorage.setItem('auth', JSON.stringify(data));
   }
   return response.data;
 };
@@ -54,7 +64,12 @@ const gMy = async (token) => {
   const response = await axios(USER_URI, config);
 
   if (response.data) {
-    localStorage.setItem('auth', JSON.stringify(response.data));
+    const data = {
+      time: new Date().toLocaleString(),
+      user: response.data,
+    };
+
+    localStorage.setItem('auth', JSON.stringify(data));
   }
   return response.data;
 };

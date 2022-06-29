@@ -31,6 +31,7 @@ import {
   Group,
   HowToReg,
   AccountCircle,
+  Dashboard,
 } from '@mui/icons-material/';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -153,31 +154,67 @@ const Layout = ({ children }) => {
   };
 
   const registarRoute = () => {
+    const data = {
+      time: new Date().toLocaleString(),
+      user,
+    };
+    localStorage.setItem('auth', JSON.stringify(data));
     navigate('/registar');
     // window.open('/registar');
     handleDrawerClose();
   };
 
   const usersRoute = () => {
+    const data = {
+      time: new Date().toLocaleString(),
+      user,
+    };
+    localStorage.setItem('auth', JSON.stringify(data));
     navigate('/users');
     // window.open('/registar');
     handleDrawerClose();
   };
 
   const vistorRoute = () => {
+    const data = {
+      time: new Date().toLocaleString(),
+      user,
+    };
+    localStorage.setItem('auth', JSON.stringify(data));
     navigate('/vistors');
     // window.open('/registar');
     handleDrawerClose();
   };
 
   const vistorControlRoute = () => {
+    const data = {
+      time: new Date().toLocaleString(),
+      user,
+    };
+    localStorage.setItem('auth', JSON.stringify(data));
     navigate('/vistorscontrol');
     // window.open('/registar');
     handleDrawerClose();
   };
 
   const profileRoute = () => {
+    const data = {
+      time: new Date().toLocaleString(),
+      user,
+    };
+    localStorage.setItem('auth', JSON.stringify(data));
     navigate(`/users/${user?._id}`);
+    // window.open('/registar');
+    handleDrawerClose();
+  };
+
+  const dashboardRoute = () => {
+    const data = {
+      time: new Date().toLocaleString(),
+      user,
+    };
+    localStorage.setItem('auth', JSON.stringify(data));
+    navigate('/default');
     // window.open('/registar');
     handleDrawerClose();
   };
@@ -246,49 +283,51 @@ const Layout = ({ children }) => {
                 </IconButton>
               </Box>
               <React.Fragment>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    textAlign: 'center',
-                  }}
-                >
-                  <Tooltip title="Account settings">
-                    <IconButton
-                      onClick={handleClick}
-                      size="small"
-                      sx={{ ml: 2 }}
-                      aria-controls={openMneu ? 'account-menu' : undefined}
-                      aria-haspopup="true"
-                      aria-expanded={openMneu ? 'true' : undefined}
-                    >
-                      <Grid
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          gap: '1px',
-                          cursor: 'pointer',
-                        }}
+                {user && (
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      textAlign: 'center',
+                    }}
+                  >
+                    <Tooltip title="Account settings">
+                      <IconButton
+                        onClick={handleClick}
+                        size="small"
+                        sx={{ ml: 2 }}
+                        aria-controls={openMneu ? 'account-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={openMneu ? 'true' : undefined}
                       >
-                        <Avatar
-                          sx={{ height: 26, width: 26 }}
-                          src={user?.photo ? user.photo : user?.name[0]}
-                          alt={user?.name}
-                        />
-                        <Typography
+                        <Grid
                           sx={{
-                            fontSize: 9,
-                            color: theme.palette.text.primary,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            gap: '1px',
+                            cursor: 'pointer',
                           }}
                         >
-                          {user?.name.split(' ')[0]}
-                        </Typography>
-                      </Grid>
-                    </IconButton>
-                  </Tooltip>
-                </Box>
+                          <Avatar
+                            sx={{ height: 26, width: 26 }}
+                            src={user?.photo ? user.photo : user?.name[0]}
+                            alt={user?.name}
+                          />
+                          <Typography
+                            sx={{
+                              fontSize: 9,
+                              color: theme.palette.text.primary,
+                            }}
+                          >
+                            {user?.name.split(' ')[0]}
+                          </Typography>
+                        </Grid>
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
+                )}
                 <Menu
                   anchorEl={anchorEl}
                   id="account-menu"
@@ -454,6 +493,27 @@ const Layout = ({ children }) => {
         </List>
         <Divider />
         <List>
+          <ListItem disablePadding sx={{ display: 'block' }}>
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'flex-start',
+                px: 2,
+              }}
+              onClick={dashboardRoute}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center',
+                }}
+              >
+                <Dashboard />
+              </ListItemIcon>
+              <Typography sx={{ opacity: open ? 1 : 0 }}>DashBoard</Typography>
+            </ListItemButton>
+          </ListItem>
           {user && (
             <ListItem disablePadding sx={{ display: 'block' }}>
               <ListItemButton
@@ -538,16 +598,22 @@ const Layout = ({ children }) => {
         </List>
         <Divider />
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box
+        component="main"
+        sx={{ flexGrow: 1, pt: 3, paddingInline: { xs: 1.3, sm: 2 }, pb: 2 }}
+      >
         <DrawerHeader />
         <Stack
           direction="column"
           sx={{
-            mt: '2.5rem',
+            ...(user ? { mt: '2.5rem' } : { mt: '2rem' }),
             width: '100%',
-            minHeight: '90vh',
+            ...(user ? { minHeight: '90vh' } : { minHeight: '91vh' }),
             bgcolor: theme.palette.background.default,
-            borderRadius: theme.shape.borderRadius,
+            borderRadius: {
+              xs: theme.shape.borderRadius - 2,
+              sm: theme.shape.borderRadius,
+            },
           }}
           onClick={handleDrawerClose}
         >

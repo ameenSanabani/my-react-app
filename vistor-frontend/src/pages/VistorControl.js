@@ -3,7 +3,15 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button, Grid, Typography, useTheme } from '@mui/material';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import {
+  DataGrid,
+  GridToolbarContainer,
+  GridToolbarColumnsButton,
+  GridToolbarFilterButton,
+  GridToolbarExport,
+  GridToolbarDensitySelector,
+} from '@mui/x-data-grid';
+import { Delete } from '@mui/icons-material';
 
 import { getVistor, delVistor } from '../features/vistor/vistorSlicer';
 import Spinner from '../components/Spinner';
@@ -143,6 +151,27 @@ const VistorControl = () => {
     return result;
   };
 
+  function CustomToolbar() {
+    return (
+      <GridToolbarContainer>
+        <GridToolbarColumnsButton sx={{ color: theme.palette.text.primary }} />
+        <GridToolbarFilterButton sx={{ color: theme.palette.text.primary }} />
+        <GridToolbarDensitySelector
+          sx={{ color: theme.palette.text.primary }}
+        />
+        <GridToolbarExport sx={{ color: theme.palette.text.primary }} />
+        <Button
+          startIcon={<Delete />}
+          onClick={deleteVistor}
+          size="small"
+          sx={{ color: theme.palette.text.primary }}
+        >
+          Delete
+        </Button>
+      </GridToolbarContainer>
+    );
+  }
+
   if (isLoading) {
     if (modeDark) {
       return <SpinnerDark />;
@@ -179,15 +208,6 @@ const VistorControl = () => {
         <Typography variant="h1" component="h1">
           معلومات عن الزائرين
         </Typography>
-
-        <Button
-          onClick={deleteVistor}
-          sx={{ bgcolor: 'red' }}
-          variant="contained"
-          size="small"
-        >
-          Delete
-        </Button>
       </Grid>
       <Grid
         item
@@ -212,7 +232,7 @@ const VistorControl = () => {
           columns={clumns}
           rows={rows}
           getRowClassName={(params) => `rowsTable ${params.row}`}
-          components={{ Toolbar: GridToolbar }}
+          components={{ Toolbar: CustomToolbar }}
           autoPageSize={true}
           onSelectionModelChange={(params) => setSelected(params)}
           // rowsPerPageOptions={[5]}

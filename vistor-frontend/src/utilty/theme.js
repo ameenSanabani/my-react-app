@@ -43,7 +43,7 @@ const getDesignTokens = (mode) => ({
     },
   },
   shape: {
-    borderRadius: 6,
+    borderRadius: 5,
   },
   typography: {
     h6: {

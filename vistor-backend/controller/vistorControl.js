@@ -38,13 +38,9 @@ const getVistors = asyncHandler(async (req, res) => {
 const deleteVistor = asyncHandler(async (req, res) => {
   const obj = [...req.params.editid.split(',')];
 
-  const ids = obj.map((id) => ({
-    _id: id,
-  }));
+  const vistorsDels = await Vistor.find({ _id: { $in: obj } });
 
-  const vistorsDels = await Vistor.find({ $or: ids });
-
-  await Vistor.deleteMany({ $or: ids });
+  await Vistor.deleteMany({ _id: { $in: obj } });
 
   await UpdateVistor.create({
     user: req.user._id,

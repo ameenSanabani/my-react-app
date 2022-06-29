@@ -16,13 +16,13 @@ const Chart = () => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} sm={6}>
-        <LineChart isLoading={isLoading} />
-      </Grid>
-      <Grid item xs={12} sm={6}>
         <BarChart isLoading={isLoading} />
       </Grid>
       <Grid item xs={12} sm={6}>
         <StepLineChart isLoading={isLoading} />
+      </Grid>
+      <Grid item xs={12} sm={6}>
+        <LineChart isLoading={isLoading} />
       </Grid>
       <Grid item xs={12} sm={6}>
         <AreaChart isLoading={isLoading} />

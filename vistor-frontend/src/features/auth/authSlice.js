@@ -4,8 +4,20 @@ import authServies from './authServies';
 
 const auth = JSON.parse(localStorage.getItem('auth'));
 
+const showDate = (auth) => {
+  const logDate = new Date(auth?.time);
+  const timeNow = new Date();
+  const valueTime = (timeNow.getTime() - logDate.getTime()) / 1000;
+  if (valueTime < 3000) {
+    return auth?.user;
+  } else {
+    localStorage.removeItem('auth');
+    return null;
+  }
+};
+
 const initialState = {
-  user: auth ? auth : null,
+  user: showDate(auth),
   loading: false,
   seccess: false,
   isErorr: false,
