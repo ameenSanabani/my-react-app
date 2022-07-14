@@ -35,6 +35,7 @@ const createUser = asyncHnadler(async (req, res) => {
       active: userCreated.active,
       isAdmin: userCreated.isAdmin,
       group: userCreated.group,
+      photo: userCreated.photo,
       token: createToken(userCreated._id),
     });
 
@@ -141,6 +142,7 @@ const updatUser = asyncHnadler(async (req, res) => {
             active: updatedUser.active,
             isAdmin: updatedUser.isAdmin,
             group: updatedUser.group,
+            photo: updatedUser.photo,
             token: createToken(updatedUser._id),
           });
 
@@ -266,6 +268,7 @@ const getMe = asyncHnadler(async (req, res) => {
       active: user.active,
       isAdmin: user.isAdmin,
       group: user.group,
+      photo: user.photo,
       token: createToken(user._id),
     });
   } else {

@@ -11,6 +11,7 @@ import {
   OutlinedInput,
   TextField,
   Typography,
+  useTheme,
 } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -48,6 +49,8 @@ const Info = () => {
   const [showPassword3, setshowPassword3] = useState(false);
   const [strength, setStrength] = useState(0);
   const [level, setLevel] = useState();
+
+  const theme = useTheme();
   // eslint-disable-next-line
   const [upload, setUpload] = useState({
     file: null,
@@ -247,9 +250,10 @@ const Info = () => {
             }}
           >
             <TextField
-              sx={{ width: '100%' }}
+              sx={{ width: '100%', mb: { xs: theme.spacing(3), sm: 0 } }}
               type="text"
               name="name"
+              size="small"
               variant="filled"
               label="عدل اسمك"
               onChange={(e) => setName(e.target.value)}
@@ -272,7 +276,7 @@ const Info = () => {
               type="submit"
               variant="contained"
               size="small"
-              sx={{ width: '100%' }}
+              sx={{ mt: { xs: theme.spacing(3), sm: 0 }, width: '100%' }}
               startIcon={<Update />}
             >
               update
@@ -295,6 +299,7 @@ const Info = () => {
               type={showPassword ? 'text' : 'password'}
               value={oldpass}
               name="oldpass"
+              size="small"
               onChange={onChange}
               endAdornment={
                 <InputAdornment position="end">
@@ -317,7 +322,9 @@ const Info = () => {
             <OutlinedInput
               type={showPassword2 ? 'text' : 'password'}
               value={newpass}
+              sx={{ mt: { xs: theme.spacing(3), sm: 0 } }}
               name="newpass"
+              size="small"
               onChange={(e) => {
                 onChange(e);
                 changePassword(e.target.value);
@@ -363,6 +370,8 @@ const Info = () => {
               type={showPassword3 ? 'text' : 'password'}
               value={confpass}
               name="confpass"
+              sx={{ mt: { xs: theme.spacing(3), sm: 0 } }}
+              size="small"
               onChange={onChange}
               endAdornment={
                 <InputAdornment position="end">
@@ -385,6 +394,7 @@ const Info = () => {
             <Button
               size="small"
               type="submit"
+              sx={{ mt: { xs: theme.spacing(3), sm: 0 } }}
               variant="contained"
               startIcon={<Update />}
             >

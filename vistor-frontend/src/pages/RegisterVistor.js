@@ -152,6 +152,7 @@ const RegisterVistor = () => {
                   {...params}
                   sx={{ width: '100%' }}
                   name="name"
+                  size="small"
                   variant="filled"
                   label="اكتب اسم الزائر"
                 />
@@ -165,6 +166,7 @@ const RegisterVistor = () => {
               type="number"
               name="mobile"
               variant="filled"
+              size="small"
               label="اكتب رقم تلفون الزائر"
               onChange={onChange}
               value={mobile}
@@ -175,6 +177,7 @@ const RegisterVistor = () => {
               sx={{ width: '100%' }}
               type="text"
               name="resone"
+              size="small"
               variant="filled"
               label="اكتب ملاحظات واسباب الزيارة"
               onChange={onChange}
@@ -195,6 +198,7 @@ const RegisterVistor = () => {
                   {...params}
                   sx={{ width: '100%' }}
                   name="company"
+                  size="small"
                   variant="filled"
                   label="اكتب اسم شركة الزائر"
                 />

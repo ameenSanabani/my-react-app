@@ -147,6 +147,28 @@ const Layout = ({ children }) => {
   };
 
   const navigate = useNavigate();
+
+  const showDate = () => {
+    const auth = JSON.parse(localStorage.getItem('auth'));
+    const boolenAuth = Boolean(auth);
+    if (boolenAuth) {
+      const logDate = new Date(auth.time);
+      const timeNow = new Date();
+      const valueTime = (timeNow.getTime() - logDate.getTime()) / 1000;
+      if (valueTime < 3000) {
+        const data = {
+          time: new Date().toLocaleString(),
+          user,
+        };
+        localStorage.setItem('auth', JSON.stringify(data));
+      } else {
+        dispatch(logoutUser());
+      }
+    } else {
+      return null;
+    }
+  };
+
   const loginRoute = () => {
     navigate('/login');
     // window.open('/login');
@@ -154,66 +176,42 @@ const Layout = ({ children }) => {
   };
 
   const registarRoute = () => {
-    const data = {
-      time: new Date().toLocaleString(),
-      user,
-    };
-    localStorage.setItem('auth', JSON.stringify(data));
+    showDate();
     navigate('/registar');
     // window.open('/registar');
     handleDrawerClose();
   };
 
   const usersRoute = () => {
-    const data = {
-      time: new Date().toLocaleString(),
-      user,
-    };
-    localStorage.setItem('auth', JSON.stringify(data));
+    showDate();
     navigate('/users');
     // window.open('/registar');
     handleDrawerClose();
   };
 
   const vistorRoute = () => {
-    const data = {
-      time: new Date().toLocaleString(),
-      user,
-    };
-    localStorage.setItem('auth', JSON.stringify(data));
+    showDate();
     navigate('/vistors');
     // window.open('/registar');
     handleDrawerClose();
   };
 
   const vistorControlRoute = () => {
-    const data = {
-      time: new Date().toLocaleString(),
-      user,
-    };
-    localStorage.setItem('auth', JSON.stringify(data));
+    showDate();
     navigate('/vistorscontrol');
     // window.open('/registar');
     handleDrawerClose();
   };
 
   const profileRoute = () => {
-    const data = {
-      time: new Date().toLocaleString(),
-      user,
-    };
-    localStorage.setItem('auth', JSON.stringify(data));
+    showDate();
     navigate(`/users/${user?._id}`);
     // window.open('/registar');
     handleDrawerClose();
   };
 
   const dashboardRoute = () => {
-    const data = {
-      time: new Date().toLocaleString(),
-      user,
-    };
-    localStorage.setItem('auth', JSON.stringify(data));
+    showDate();
     navigate('/default');
     // window.open('/registar');
     handleDrawerClose();

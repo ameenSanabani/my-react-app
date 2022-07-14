@@ -137,16 +137,18 @@ const VistorControl = () => {
   const authorty = (params) => {
     let result;
 
-    user?.group.map((itm) => {
+    for (let i = 0; i < user?.group.length; i++) {
+      const itm = user?.group[i];
       if (+itm === 3) {
-        return (result = params.row.user !== 1);
+        result = params.row.user !== 1;
       }
       if (+itm === 2) {
-        return (result = params.row.user === 1);
-      } else {
-        return (result = params.row.user === user?.id);
+        result = params.row.user === user?._id;
       }
-    });
+      if (+itm === 1) {
+        result = params.row.user === 1;
+      }
+    }
 
     return result;
   };

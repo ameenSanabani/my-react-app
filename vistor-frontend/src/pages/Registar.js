@@ -139,12 +139,13 @@ const Registar = () => {
           sx={{
             margin: '1rem auto',
             width: 300,
-            gap: 3,
+            gap: { xs: 1, sm: 3 },
           }}
         >
           <TextField
             sx={{ mt: { xs: theme.spacing(3), sm: 0 } }}
             variant="outlined"
+            size="small"
             {...register('name', {
               required: 'لايمكن عدم اضافة اسمك',
             })}
@@ -158,6 +159,7 @@ const Registar = () => {
           <TextField
             sx={{ mt: { xs: theme.spacing(3), sm: 0 } }}
             variant="outlined"
+            size="small"
             {...register('userId', {
               required: 'اكتب المعرف الخاص بك',
               minLength: {
@@ -175,6 +177,7 @@ const Registar = () => {
           <OutlinedInput
             sx={{ mt: { xs: theme.spacing(3), sm: 0 } }}
             type={showPassword ? 'text' : 'password'}
+            size="small"
             {...register('password', {
               required: 'لابد من كتابة كلمة السر',
               minLength: {
@@ -226,6 +229,7 @@ const Registar = () => {
           )}
           <OutlinedInput
             sx={{ mt: { xs: theme.spacing(3), sm: 0 } }}
+            size="small"
             type={showPassword1 ? 'text' : 'password'}
             {...register('password2', { required: 'اعد كتابة كلمة السر' })}
             endAdornment={
@@ -252,7 +256,7 @@ const Registar = () => {
             </Alert>
           )}
           <Button
-            sx={{ mt: { xs: theme.spacing(4), sm: 0 } }}
+            sx={{ mt: { xs: theme.spacing(3), sm: 0 } }}
             type="submit"
             startIcon={<PersonAdd />}
             variant="contained"
