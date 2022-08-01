@@ -26,6 +26,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/users', require('./router/usersR/userRoute'));
 app.use('/api/vistors', require('./router/vistorRoute/vistorRouter'));
+app.use('/api/product', require('./router/productRoute/productR'));
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../vistor-frontend/build')));

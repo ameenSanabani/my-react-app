@@ -114,7 +114,7 @@ const Login = () => {
               تسجيل الدخول
             </Typography>
           </motion.div>
-          <Divider />
+          <Divider sx={{ marginBlock: 2 }} />
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack
               direction="column"

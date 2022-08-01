@@ -16,6 +16,7 @@ import { Delete } from '@mui/icons-material';
 import { getVistor, delVistor } from '../features/vistor/vistorSlicer';
 import Spinner from '../components/Spinner';
 import SpinnerDark from '../components/SpinnerDark';
+import getvalueintext from '../utilty/writeNumber';
 
 const VistorControl = () => {
   const [selected, setSelected] = useState([]);
@@ -116,7 +117,7 @@ const VistorControl = () => {
 
   const rows = vistor
     ? vistor?.map((vist, index) => ({
-        no: index + 1,
+        no: getvalueintext(index + 1),
         name: vist?.name,
         company: vist?.company,
         mobile: vist?.mobile,
