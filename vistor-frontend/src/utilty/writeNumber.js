@@ -37,14 +37,14 @@ const getcountIntext = (count) => {
       default:
         return;
     }
-    count = count % 100;
+    count %= 100;
   }
 
   let singcount = count;
   let singname = '';
 
   if (singcount > 10) {
-    singcount = singcount % 10;
+    singcount %= 10;
   }
 
   if (singcount > 0) {
@@ -181,7 +181,7 @@ const getvalueintext = (value) => {
 
       valuename += getvalueintextBybase(value, base_value);
 
-      value = value % base_value;
+      value %= base_value;
     }
 
     base_value /= 1000;

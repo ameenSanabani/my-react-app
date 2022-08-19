@@ -8,6 +8,7 @@ const addProduct = asyncHandler(async (req, res) => {
     product,
     category,
     brand,
+    display,
     model,
     units,
     specialCode,
@@ -26,24 +27,23 @@ const addProduct = asyncHandler(async (req, res) => {
     const allProduct = await Product.find({});
     const specOnly = allProduct.map((product) => product.specialCode);
     const spCode = specOnly.length > 0 ? Math.max(...specOnly) + 1 : 1;
-
     const newProduct = await Product.create({
       user: req.user._id,
       product,
       active: true,
-      display: true,
+      display,
       category,
       brand,
       model,
       units,
-      specialCode: specialCode ? specialCode : spCode,
-      barcode,
+      specialCode: specialCode ? +specialCode : spCode,
+      barcode: +barcode,
       explanation,
       content,
       documents,
     });
 
-    res.status(201).json({ newProduct });
+    res.status(201).json(newProduct);
   }
 });
 

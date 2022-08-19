@@ -5,3 +5,4 @@ export { default as Registar } from './Registar';
 export { default as RegisterVistor } from './RegisterVistor';
 export { default as UsersControl } from './UsersControl';
 export { default as VistorControl } from './VistorControl';
+export { default as Product } from './Product';

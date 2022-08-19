@@ -11,7 +11,7 @@ import {
   ListItem,
   ListItemButton,
   ListItemIcon,
-  ListItemText,
+  // ListItemText,
   Avatar,
   Stack,
   Grid,
@@ -32,12 +32,13 @@ import {
   HowToReg,
   AccountCircle,
   Dashboard,
+  Cake,
 } from '@mui/icons-material/';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+// import InboxIcon from '@mui/icons-material/MoveToInbox';
+// import MailIcon from '@mui/icons-material/Mail';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -213,6 +214,13 @@ const Layout = ({ children }) => {
   const dashboardRoute = () => {
     showDate();
     navigate('/default');
+    // window.open('/registar');
+    handleDrawerClose();
+  };
+
+  const productRoute = () => {
+    showDate();
+    navigate('/products');
     // window.open('/registar');
     handleDrawerClose();
   };
@@ -571,6 +579,34 @@ const Layout = ({ children }) => {
         </List>
         <Divider />
         <List>
+          {user && (
+            <ListItem disablePadding sx={{ display: 'block' }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'flex-start',
+                  px: 2,
+                }}
+                onClick={productRoute}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Cake />
+                </ListItemIcon>
+                <Typography sx={{ opacity: open ? 1 : 0 }}>
+                  اضافة منتج
+                </Typography>
+              </ListItemButton>
+            </ListItem>
+          )}
+        </List>
+        {user && <Divider />}
+        {/* <List>
           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
@@ -593,8 +629,7 @@ const Layout = ({ children }) => {
               </ListItemButton>
             </ListItem>
           ))}
-        </List>
-        <Divider />
+        </List> */}
       </Drawer>
       <Box
         component="main"
