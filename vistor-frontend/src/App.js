@@ -13,6 +13,7 @@ import {
   VistorControl,
   RegisterVistor,
   Product,
+  ProductControl,
 } from './pages';
 import getDesignTokens from './utilty/theme';
 import Spinner from './components/Spinner';
@@ -51,6 +52,7 @@ function App() {
           <Route path="/vistorscontrol" element={<VistorControl />} />
           <Route path="/users/:userId" element={<Info />} />
           <Route path="/products" element={<Product />} />
+          <Route path="/productcontrol" element={<ProductControl />} />
           <Route path="/*" element={<Error />} />
         </Routes>
       </Layout>

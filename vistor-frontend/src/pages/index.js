@@ -6,3 +6,4 @@ export { default as RegisterVistor } from './RegisterVistor';
 export { default as UsersControl } from './UsersControl';
 export { default as VistorControl } from './VistorControl';
 export { default as Product } from './Product';
+export { default as ProductControl } from './ProductControl';

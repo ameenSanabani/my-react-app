@@ -33,6 +33,7 @@ import {
   AccountCircle,
   Dashboard,
   Cake,
+  FactCheck,
 } from '@mui/icons-material/';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -221,6 +222,13 @@ const Layout = ({ children }) => {
   const productRoute = () => {
     showDate();
     navigate('/products');
+    // window.open('/registar');
+    handleDrawerClose();
+  };
+
+  const productControlRoute = () => {
+    showDate();
+    navigate('/productcontrol');
     // window.open('/registar');
     handleDrawerClose();
   };
@@ -600,6 +608,31 @@ const Layout = ({ children }) => {
                 </ListItemIcon>
                 <Typography sx={{ opacity: open ? 1 : 0 }}>
                   اضافة منتج
+                </Typography>
+              </ListItemButton>
+            </ListItem>
+          )}
+          {user && (
+            <ListItem disablePadding sx={{ display: 'block' }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'flex-start',
+                  px: 2,
+                }}
+                onClick={productControlRoute}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <FactCheck />
+                </ListItemIcon>
+                <Typography sx={{ opacity: open ? 1 : 0 }}>
+                  تعديل قائمة المنتجات
                 </Typography>
               </ListItemButton>
             </ListItem>

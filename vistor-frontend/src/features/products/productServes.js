@@ -26,13 +26,13 @@ const getProduct = async (productId) => {
   return response.data;
 };
 
-const updProduct = async (productId, updatedInfo, token) => {
+const updProduct = async (updatedInfo, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
-  const response = await axios.put(API_URL + productId, updatedInfo, config);
+  const response = await axios.put(API_URL + 'update', updatedInfo, config);
 
   return response.data;
 };
