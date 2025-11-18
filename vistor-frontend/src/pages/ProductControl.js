@@ -2,7 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Grid, Typography, useTheme } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
+import {
+  DataGrid,
+  GridToolbarColumnsButton,
+  GridToolbarContainer,
+  GridToolbarDensitySelector,
+  GridToolbarExport,
+  GridToolbarFilterButton,
+} from '@mui/x-data-grid';
 import axios from 'axios';
 
 import { productUpd } from '../features/products/productSlicer';
@@ -245,6 +252,27 @@ const ProductControl = () => {
     return result;
   };
 
+  function CustomToolbar() {
+    return (
+      <GridToolbarContainer>
+        <GridToolbarColumnsButton sx={{ color: theme.palette.text.primary }} />
+        <GridToolbarFilterButton sx={{ color: theme.palette.text.primary }} />
+        <GridToolbarDensitySelector
+          sx={{ color: theme.palette.text.primary }}
+        />
+        <GridToolbarExport sx={{ color: theme.palette.text.primary }} />
+        {/* <Button
+          startIcon={<Delete />}
+          onClick={deleteVistor}
+          size="small"
+          sx={{ color: theme.palette.text.primary }}
+        >
+          Delete
+        </Button> */}
+      </GridToolbarContainer>
+    );
+  }
+
   if (pending || isLoadingPr) {
     if (modeDark) {
       return <SpinnerDark />;
@@ -305,8 +333,9 @@ const ProductControl = () => {
           <DataGrid
             columns={clumns}
             rows={rows}
-            rowsPerPageOptions={[7]}
-            pageSize={7}
+            components={{ Toolbar: CustomToolbar }}
+            rowsPerPageOptions={[6]}
+            pageSize={6}
             getRowClassName={(params) => `rowsTable ${params.row}`}
             experimentalFeatures={{ newEditingApi: true }}
             isCellEditable={(params) => authorty(params)}

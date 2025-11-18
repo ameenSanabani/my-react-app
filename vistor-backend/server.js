@@ -14,7 +14,8 @@ mongoDB();
 app.use(
   cors({
     origin: 'http://localhost:3000',
-  })
+  }),
+  express.json({ limit: '50mb' })
 );
 
 const port = process.env.PORT || 8000;
