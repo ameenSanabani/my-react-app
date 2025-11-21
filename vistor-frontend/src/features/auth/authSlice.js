@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import Cookie from 'js-cookie';
 
 import authServies from './authServies';
 
-const auth = JSON.parse(localStorage.getItem('auth'));
+const auth = JSON.parse(Cookie.get('auth') || 'null');
 
 const showDate = (auth) => {
   const boolenAuth = Boolean(auth);
@@ -13,7 +14,7 @@ const showDate = (auth) => {
     if (valueTime < 3000) {
       return auth.user;
     } else {
-      localStorage.removeItem('auth');
+      Cookie.remove('auth');
       return null;
     }
   } else {

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookie from 'js-cookie';
 
 const USER_URI = '/users';
 
@@ -10,7 +11,7 @@ const registerUsers = async (data) => {
       user: response.data,
     };
 
-    localStorage.setItem('auth', JSON.stringify(data));
+    Cookie.set('auth', JSON.stringify(data));
   }
   return response.data;
 };
@@ -22,14 +23,13 @@ const loginUsers = async (data) => {
       time: new Date().toLocaleString(),
       user: response.data,
     };
-
-    localStorage.setItem('auth', JSON.stringify(data));
+    Cookie.set('auth', JSON.stringify(data));
   }
   return response.data;
 };
 
 const logoutUsers = () => {
-  localStorage.removeItem('auth');
+  Cookie.remove('auth');
 };
 
 const infoUpdate = async (data, token) => {
@@ -69,7 +69,7 @@ const gMy = async (token) => {
       user: response.data,
     };
 
-    localStorage.setItem('auth', JSON.stringify(data));
+    Cookie.set('auth', JSON.stringify(data));
   }
   return response.data;
 };

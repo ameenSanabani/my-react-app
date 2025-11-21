@@ -53,7 +53,6 @@ const createUser = asyncHnadler(async (req, res) => {
 
 const login = asyncHnadler(async (req, res) => {
   const { userId, password } = req.body;
-
   const user = await User.findOne({ userId });
 
   if (user && (await bcrypt.compare(password, user.password))) {
