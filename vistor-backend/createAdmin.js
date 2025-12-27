@@ -30,7 +30,7 @@ const createAdmin = async () => {
       password: hashedPassword,
       isAdmin: true,
       active: true,
-      group: 1,
+      group: [1,2,3],
     });
 
     console.log('Admin user created successfully'.green.inverse);
