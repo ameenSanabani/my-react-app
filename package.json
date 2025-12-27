@@ -7,13 +7,14 @@
     "start": "node vistor-backend/server.js",
     "server": "nodemon vistor-backend/server.js",
     "client": "npm start --prefix vistor-frontend",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "create-admin": "node vistor-backend/createAdmin.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.0.1",
+    "bcryptjs": "^3.0.3",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",

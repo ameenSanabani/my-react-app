@@ -1,5 +1,5 @@
 const User = require('../moduls/users/userModul');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const asyncHnadler = require('express-async-handler');
 
@@ -287,7 +287,7 @@ const getAll = asyncHnadler(async (req, res) => {
 });
 
 const createToken = (id) => {
-  return jwt.sign({ id }, process.env.TOKEN_SECRET, { expiresIn: '15d' });
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '15d' });
 };
 
 module.exports = {
